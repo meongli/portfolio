@@ -41,7 +41,7 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.7;word-break:keep-all}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:.9375rem;line-height:1.7;word-break:keep-all}
 .wrap{max-width:1080px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:64px}
 h1,h2,h3{font-family:var(--font-display);font-weight:700;text-wrap:balance;margin:0;line-height:1.3}
 h2{font-size:1.65rem}
@@ -273,9 +273,166 @@ html{scroll-behavior:smooth}
 @media (max-width:560px){.svc-grid{grid-template-columns:1fr}.svc-wide{grid-column:auto}}
 @media (prefers-reduced-motion:reduce){.svc:hover{transform:translateY(-4px)}}
 
+/* ===== 공통 UI 컴포넌트: 탭, 아코디언, 드로어, 드롭다운, 툴팁 ===== */
+html.fs-large{font-size:112.5%}
+html.fs-xl{font-size:125%}
+html.calm *,html.calm *::before,html.calm *::after{animation:none!important;transition-duration:0s!important;transition-delay:0s!important}
+.wrap{overflow-x:clip}
+.sec-head{display:grid;gap:2px}
+
+/* 상단 바 + 설정 버튼 */
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:-36px}
+.brand{font-family:var(--font-mono);font-size:.8rem;color:var(--ink-3);letter-spacing:.04em}
+.icon-btn{display:none;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--rule);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:.85rem;cursor:pointer;transition:border-color .2s}
+.js .icon-btn{display:inline-flex}
+.icon-btn:hover{border-color:var(--shelf)}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.icon-btn:hover svg{transform:rotate(60deg)}
+.icon-btn:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+
+/* Tabs */
+.tabs-sec{display:grid;gap:18px}
+.tablist{position:relative;display:none;gap:4px;border-bottom:1px solid var(--rule)}
+.js .tablist{display:flex}
+.tab{all:unset;cursor:pointer;padding:12px 18px;font-weight:600;font-size:.95rem;color:var(--ink-3);transition:color .2s}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{color:var(--ink)}
+.tab:focus-visible{outline:2px solid var(--stamp);outline-offset:-4px;border-radius:6px}
+.tab-ind{position:absolute;left:0;bottom:-1px;height:3px;width:0;background:var(--shelf);border-radius:3px 3px 0 0;transition:transform .4s cubic-bezier(.2,.7,.2,1),width .4s cubic-bezier(.2,.7,.2,1)}
+.tabpanel{padding-top:8px;transition:opacity .16s ease}
+.tabpanel.out{opacity:0}
+.tabpanel.fade{animation:tabfade .4s ease both}
+@keyframes tabfade{from{opacity:0;transform:translateY(6px)}}
+.panel-title{font-size:1.1rem;margin-bottom:12px}
+.js .panel-title{display:none}
+.tabpanel + .tabpanel{margin-top:32px}
+.js .tabpanel + .tabpanel{margin-top:0}
+
+/* 목차 */
+.toc{list-style:none;margin:0;padding:0;display:grid;max-width:680px}
+.toc a{display:grid;grid-template-columns:2.2em minmax(0,auto) minmax(24px,1fr) auto;gap:12px;align-items:baseline;padding:14px 4px;border-bottom:1px solid var(--rule);color:inherit;text-decoration:none}
+.toc-no{font-family:var(--font-mono);color:var(--ink-3);font-size:.85rem}
+.toc-t{display:grid;min-width:0}
+.toc-t b{font-family:var(--font-display);font-size:1.15rem;transition:color .2s}
+.toc-t small{font-size:.8rem;color:var(--ink-3)}
+.toc-dots{border-bottom:2px dotted var(--rule);align-self:center}
+.toc-n{font-family:var(--font-mono);font-size:.85rem;color:var(--ink-2);white-space:nowrap}
+.toc a:hover .toc-t b{color:var(--shelf)}
+.toc a:focus-visible{outline:2px solid var(--stamp);outline-offset:-2px;border-radius:4px}
+
+/* 서평 */
+.reviews{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.review{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:18px;border:1px solid var(--rule);border-radius:8px;background:var(--card);color:inherit;text-decoration:none;transition:border-color .2s,transform .25s}
+.review:hover{border-color:var(--shelf);transform:translateY(-3px)}
+.review:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.rv-stamp{width:72px;height:72px;border-radius:50%;border:2px solid var(--stamp);box-shadow:inset 0 0 0 4px var(--card),inset 0 0 0 5px var(--stamp);color:var(--stamp);display:grid;place-items:center;font:700 .8rem/1.2 var(--font-body);text-align:center;transform:rotate(-8deg);padding:6px}
+.rv-body{display:grid;gap:4px}
+.rv-body p{font-size:.95rem;font-family:var(--font-display);font-weight:700;line-height:1.45}
+.rv-src{font-size:.78rem;color:var(--ink-3)}
+.rv-more{font-size:.78rem;color:var(--shelf)}
+
+/* Accordion */
+.faq-sec{display:grid;gap:18px}
+.acc{display:grid;border-top:1px solid var(--ink)}
+.acc-item{border-bottom:1px solid var(--rule)}
+.acc-item h3{margin:0;font-family:var(--font-body);font-size:1rem;font-weight:600}
+.acc-btn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 8px;transition:color .2s}
+.acc-btn:hover{color:var(--shelf)}
+.acc-btn:focus-visible{outline:2px solid var(--stamp);outline-offset:-2px;border-radius:4px}
+.acc-q{display:flex;gap:12px;align-items:baseline}
+.acc-q i{font-style:normal;font-family:var(--font-mono);font-size:.8rem;color:var(--stamp)}
+.acc-arrow{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s ease}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-panel{display:grid;grid-template-rows:1fr;transition:grid-template-rows .3s ease}
+.js .acc-item:not(.open) .acc-panel{grid-template-rows:0fr}
+.acc-inner{overflow:hidden;min-height:0}
+.js .acc-item:not(.open) .acc-inner{visibility:hidden;transition:visibility 0s .3s}
+.acc-inner p{padding:0 8px 20px 34px;color:var(--ink-2);max-width:62em}
+
+/* Dropdown */
+.list-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.dd{position:relative;display:none}
+.js .dd{display:block}
+.dd-btn{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;font-size:.88rem;cursor:pointer;transition:border-color .2s}
+.dd-btn:hover,.dd.open .dd-btn{border-color:var(--shelf)}
+.dd-btn:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.dd-k{color:var(--ink-3);font-size:.8rem}
+.dd-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.dd.open .dd-btn svg{transform:rotate(180deg)}
+.dd-menu{position:absolute;right:0;top:calc(100% + 6px);min-width:230px;margin:0;padding:6px;list-style:none;background:var(--card);border:1px solid var(--rule);border-radius:8px;box-shadow:var(--shadow);z-index:15;
+  clip-path:inset(0 -24px 100% -24px);opacity:0;transform:translateY(-6px);visibility:hidden;
+  transition:clip-path .28s cubic-bezier(.2,.7,.2,1),opacity .2s,transform .28s cubic-bezier(.2,.7,.2,1),visibility 0s .28s}
+.dd.open .dd-menu{clip-path:inset(0 -24px -24px -24px);opacity:1;transform:none;visibility:visible;
+  transition:clip-path .28s cubic-bezier(.2,.7,.2,1),opacity .15s,transform .28s cubic-bezier(.2,.7,.2,1),visibility 0s}
+.dd-menu li{display:grid;grid-template-columns:18px 1fr;gap:6px;padding:9px 10px;border-radius:5px;cursor:pointer;font-size:.9rem;outline:none}
+.dd-menu li small{grid-column:2;font-size:.75rem;color:var(--ink-3)}
+.dd-menu li::before{content:"";grid-row:1;width:10px;height:6px;margin-top:6px;border-left:2px solid transparent;border-bottom:2px solid transparent;transform:rotate(-45deg)}
+.dd-menu li[aria-selected="true"]{color:var(--shelf);font-weight:600}
+.dd-menu li[aria-selected="true"]::before{border-color:var(--shelf)}
+.dd-menu li:hover,.dd-menu li:focus{background:var(--paper)}
+.dd-menu li:focus-visible{box-shadow:inset 0 0 0 2px var(--stamp)}
+
+/* Tooltip */
+.tip{position:relative;display:inline-flex;vertical-align:middle;margin-left:8px}
+.tip-btn{width:20px;height:20px;border-radius:50%;border:1px solid var(--ink-3);background:var(--card);color:var(--ink-2);font:600 12px/1 var(--font-body);cursor:help;display:grid;place-items:center;padding:0;transition:border-color .2s,color .2s}
+.tip:hover .tip-btn{border-color:var(--shelf);color:var(--shelf)}
+.tip-btn:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.tip-box{position:absolute;left:calc(100% + 10px);top:50%;transform:translate(-4px,-50%);width:max-content;max-width:min(260px,60vw);padding:8px 12px;border-radius:6px;background:var(--ink);color:var(--paper);font:400 .8rem/1.55 var(--font-body);letter-spacing:0;text-transform:none;text-align:left;white-space:normal;opacity:0;visibility:hidden;pointer-events:none;z-index:12;
+  transition:opacity .15s,transform .15s,visibility 0s .15s}
+.tip-box::before{content:"";position:absolute;right:100%;top:50%;margin-top:-5px;border:5px solid transparent;border-right-color:var(--ink)}
+.tip:hover .tip-box,.tip-btn:focus-visible + .tip-box{opacity:1;visibility:visible;transform:translate(0,-50%);
+  transition:opacity .15s .2s,transform .15s .2s,visibility 0s .2s}
+
+/* Drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,20,16,.45);opacity:0;pointer-events:none;transition:opacity .3s;z-index:30}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;right:-48px;width:calc(min(360px,88vw) + 48px);padding-right:48px;background:var(--card);z-index:31;overflow-y:auto;
+  transform:translateX(100%);visibility:hidden;
+  transition:transform .28s cubic-bezier(.4,0,1,1),visibility 0s .28s}
+.drawer.open{transform:translateX(0);visibility:visible;box-shadow:-12px 0 40px rgba(0,0,0,.18);
+  transition:transform .75s cubic-bezier(.34,1.56,.64,1),visibility 0s;
+  transition:transform .8s linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1),visibility 0s}
+.drawer-in{display:grid;gap:26px;padding-block:max(24px,env(safe-area-inset-top,0px)) max(24px,env(safe-area-inset-bottom,0px));padding-left:24px;padding-right:max(24px,env(safe-area-inset-right,0px))}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.drawer-head h2{font-size:1.35rem}
+.x-btn{all:unset;cursor:pointer;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--rule);font-size:1.1rem;color:var(--ink-2)}
+.x-btn:hover{border-color:var(--ink)}
+.x-btn:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.seg{border:none;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+.seg legend{font-size:.8rem;color:var(--ink-3);padding:0;margin-bottom:8px}
+.seg-opts{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);border-radius:8px;padding:3px;gap:3px}
+.seg-opts input{position:absolute;opacity:0;pointer-events:none}
+.seg-opts label{text-align:center;padding:8px 4px;border-radius:6px;cursor:pointer;font-size:.88rem;color:var(--ink-2);transition:background .2s,color .2s}
+.seg-opts label:hover{color:var(--ink)}
+.seg-opts input:checked + label{background:var(--shelf);color:var(--card)}
+.seg-opts input:focus-visible + label{outline:2px solid var(--stamp);outline-offset:1px}
+.switch-row{display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer}
+.switch-row span{display:grid;font-size:.95rem}
+.switch-row small{font-size:.78rem;color:var(--ink-3)}
+.switch{appearance:none;-webkit-appearance:none;flex:none;width:44px;height:26px;border-radius:999px;background:var(--rule);position:relative;cursor:pointer;margin:0;transition:background .2s}
+.switch::before{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.switch:checked{background:var(--shelf)}
+.switch:checked::before{transform:translateX(18px)}
+.switch:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.drawer-note{font-size:.78rem;color:var(--ink-3)}
+
+@media (max-width:560px){
+  .reviews{grid-template-columns:1fr}
+  .tab{padding:12px 14px}
+  .toc a{grid-template-columns:2em minmax(0,1fr) auto}
+  .toc-dots{display:none}
+  .acc-inner p{padding-left:8px}
+  .topbar{margin-bottom:-40px}
+}
+
 </style>
+<script>document.documentElement.classList.add("js")</script>
 
 <div class="wrap">
+  <div class="topbar">
+    <span class="brand">LIS PORTFOLIO</span>
+    <button type="button" class="icon-btn" id="settings-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>설정</button>
+  </div>
   <header class="top-hero">
     <div class="top-hero-text">
       <span class="eyebrow rise" style="--i:0">문헌정보학 전공 · 졸업예정</span>
@@ -337,7 +494,7 @@ html{scroll-behavior:smooth}
     </figure>
   </header>
 
-  <section class="services rise" style="--i:6" aria-labelledby="svc-h">
+  <section id="services" class="services rise" style="--i:6" aria-labelledby="svc-h">
     <div><span class="eyebrow">할 수 있는 일</span><h2 id="svc-h">이런 일을 맡길 수 있습니다</h2></div>
     <div class="svc-grid">
     <label class="svc svc-wide" for="f-cust" data-go="projects">
@@ -385,28 +542,72 @@ html{scroll-behavior:smooth}
     </div>
   </section>
 
-  <section class="hero rise" style="--i:7" aria-labelledby="about-h">
-    <div class="hero-text">
-      <span class="todo">아직 비어 있는 정보: 이름, 학교, 졸업 시기, 연락처, 기간 미기재 경험 6건</span>
-      <h2 id="about-h">자기소개</h2>
-      <p class="lead">공공기관 현장실습에서 기술문서와 품질기록을 다루며, 문서는 한 번 더 확인해야 한다는 것을 몸에 익혔습니다. 장학 행정 안내, 어린이도서관 근로, 서비스직을 거치며 여러 사람에게 맞춰 설명하는 일을 해 왔고, 수어를 배워 청각장애 고객의 참여를 도운 경험은 청각장애인의 의사소통을 돕는 AAC 웨어러블 기획으로 이어져 교내 AI 창업 공모전 최우수상을 받았습니다.</p>
-      <div class="keywords"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">기획·사업계획서</span><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">AI·디지털 도구</span></div>
+  <section id="about" class="tabs-sec rise" style="--i:7" aria-labelledby="about-h">
+    <div class="sec-head"><span class="eyebrow">이 포트폴리오에 대하여</span><h2 id="about-h">소개 · 목차 · 서평</h2></div>
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="소개, 목차, 서평">
+        <button type="button" class="tab" role="tab" id="tab-intro" aria-controls="panel-intro" aria-selected="true" tabindex="0">소개</button>
+        <button type="button" class="tab" role="tab" id="tab-toc" aria-controls="panel-toc" aria-selected="false" tabindex="-1">목차</button>
+        <button type="button" class="tab" role="tab" id="tab-review" aria-controls="panel-review" aria-selected="false" tabindex="-1">서평</button>
+        <span class="tab-ind" aria-hidden="true"></span>
+      </div>
+      <div class="tabpanel" role="tabpanel" id="panel-intro" aria-labelledby="tab-intro" tabindex="0">
+        <h3 class="panel-title">소개</h3>
+        <div class="hero">
+      <div class="hero-text">
+        <span class="todo">아직 비어 있는 정보: 이름, 학교, 졸업 시기, 연락처, 기간 미기재 경험 6건</span>
+        <p class="lead">공공기관 현장실습에서 기술문서와 품질기록을 다루며, 문서는 한 번 더 확인해야 한다는 것을 몸에 익혔습니다. 장학 행정 안내, 어린이도서관 근로, 서비스직을 거치며 여러 사람에게 맞춰 설명하는 일을 해 왔고, 수어를 배워 청각장애 고객의 참여를 도운 경험은 청각장애인의 의사소통을 돕는 AAC 웨어러블 기획으로 이어져 교내 AI 창업 공모전 최우수상을 받았습니다.</p>
+        <div class="keywords"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">기획·사업계획서</span><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">AI·디지털 도구</span></div>
+      </div>
+      <aside class="catalog" aria-label="자기소개 목록카드">
+        <div class="catalog-head"><span>KORMARC 형식 자기소개</span><span>경험 9건</span></div>
+        <dl class="marc"><dt>100</dt><dd><i>▾a</i><span class="blank">[이름]</span></dd><dt>245</dt><dd><i>▾a</i>문서를 정확하게 다루고 사람에게 맞춰 안내하는 예비 사서</dd><dt>260</dt><dd><i>▾a</i><span class="blank">[학교]</span> 문헌정보학 전공 <i>▾c</i><span class="blank">[졸업 시기]</span> 졸업예정</dd><dt>300</dt><dd><i>▾a</i>실무 4건 ; 수상 2건 ; 개인 프로젝트 3건</dd><dt>500</dt><dd>최고 성적 과목: 메타데이터, 자료분류<br>도서관마케팅 수강 중 (마케팅원론 기반)<br>수어 교양 이수</dd><dt>586</dt><dd>교내 AI 창업 공모전 최우수상<br>제1회 대구 글로벌 청년 관광교류 프로그램 우수상 (2025. 8.)</dd><dt>650</dt><dd><i>▾a</i>문서·자료 체계화 <i>▾a</i>공공 행정 실무 <i>▾a</i>고객·외부기관 응대 <i>▾a</i>기획·사업계획서</dd></dl>
+      </aside>
     </div>
-    <aside class="catalog" aria-label="자기소개 목록카드">
-      <div class="catalog-head"><span>KORMARC 형식 자기소개</span><span>경험 9건</span></div>
-      <dl class="marc"><dt>100</dt><dd><i>▾a</i><span class="blank">[이름]</span></dd><dt>245</dt><dd><i>▾a</i>문서를 정확하게 다루고 사람에게 맞춰 안내하는 예비 사서</dd><dt>260</dt><dd><i>▾a</i><span class="blank">[학교]</span> 문헌정보학 전공 <i>▾c</i><span class="blank">[졸업 시기]</span> 졸업예정</dd><dt>300</dt><dd><i>▾a</i>실무 4건 ; 수상 2건 ; 개인 프로젝트 3건</dd><dt>500</dt><dd>최고 성적 과목: 메타데이터, 자료분류<br>도서관마케팅 수강 중 (마케팅원론 기반)<br>수어 교양 이수</dd><dt>586</dt><dd>교내 AI 창업 공모전 최우수상<br>제1회 대구 글로벌 청년 관광교류 프로그램 우수상 (2025. 8.)</dd><dt>650</dt><dd><i>▾a</i>문서·자료 체계화 <i>▾a</i>공공 행정 실무 <i>▾a</i>고객·외부기관 응대 <i>▾a</i>기획·사업계획서</dd></dl>
-    </aside>
+      </div>
+      <div class="tabpanel" role="tabpanel" id="panel-toc" aria-labelledby="tab-toc" tabindex="0">
+        <h3 class="panel-title">목차</h3>
+        <ol class="toc">
+      <li><a href="#services"><span class="toc-no">1</span><span class="toc-t"><b>할 수 있는 일</b><small>강점을 카드로 정리</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">강점 7</span></a></li>
+      <li><a href="#summary"><span class="toc-no">2</span><span class="toc-t"><b>한눈에 보는 활동</b><small>경험 데이터로 계산한 요약</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">카드 4</span></a></li>
+      <li><a href="#highlights"><span class="toc-no">3</span><span class="toc-t"><b>대표 경험</b><small>먼저 보여드리고 싶은 경험</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">3건</span></a></li>
+      <li><a href="#projects"><span class="toc-no">4</span><span class="toc-t"><b>강점별 경험·프로젝트 목록</b><small>거르기와 정렬, 상세 보기</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">9건</span></a></li>
+      <li><a href="#faq"><span class="toc-no">5</span><span class="toc-t"><b>자주 묻는 질문</b><small>면접 전에 궁금하실 것들</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">6문항</span></a></li>
+    </ol>
+      </div>
+      <div class="tabpanel" role="tabpanel" id="panel-review" aria-labelledby="tab-review" tabindex="0">
+        <h3 class="panel-title">서평</h3>
+        <div class="reviews">
+      <a class="review" href="#p-aac-startup">
+        <span class="rv-stamp">최우수상</span>
+        <span class="rv-body"><span class="rv-src">교내 AI 창업 공모전</span><p>청각장애인의 의사소통을 돕는 AAC 웨어러블 기획</p><span class="rv-more">관련 경험 보기 →</span></span>
+      </a>
+      <a class="review" href="#p-tour-video">
+        <span class="rv-stamp">우수상</span>
+        <span class="rv-body"><span class="rv-src">제1회 대구 글로벌 청년 관광교류 프로그램 · 2025. 8.</span><p>외국인 팀원 3명과 영어로 만든 대구 관광 영상</p><span class="rv-more">관련 경험 보기 →</span></span>
+      </a>
+      <a class="review" href="#p-service-job">
+        <span class="rv-stamp">칭찬 VOC</span>
+        <span class="rv-body"><span class="rv-src">서비스직 · 고객이 직접 접수</span><p>청각장애 고객의 만족도 조사 참여를 수어로 도운 일</p><span class="rv-more">관련 경험 보기 →</span></span>
+      </a>
+      <a class="review" href="#p-public-intern">
+        <span class="rv-stamp">원인 규명</span>
+        <span class="rv-body"><span class="rv-src">공공기관 현장실습</span><p>시스템 오류로 여겨지던 표시 문제의 실제 원인이 파일 미변환임을 짚어 냄</p><span class="rv-more">관련 경험 보기 →</span></span>
+      </a>
+    </div>
+      </div>
+    </div>
   </section>
 
-  <section class="summary" aria-labelledby="sum-h">
+  <section id="summary" class="summary" aria-labelledby="sum-h">
     <div class="summary-head">
-      <h2 id="sum-h">한눈에 보는 활동</h2>
+      <h2 id="sum-h">한눈에 보는 활동<span class="tip"><button type="button" class="tip-btn" aria-label="설명 보기" aria-describedby="tip-sum">?</button><span class="tip-box" role="tooltip" id="tip-sum">모든 숫자는 경험 데이터에서 자동으로 계산합니다. 기간을 모르는 경험은 기간 합계에서 뺍니다.</span></span></h2>
       <span class="eyebrow">경험 9건 데이터로 계산</span>
     </div>
     <div class="stats"><div class="stat"><span class="lbl">경험·프로젝트</span><span class="num">9<small>건</small></span><span class="sub">실무 4 · 수상 2 · 개인 3</span></div><div class="stat"><span class="lbl">확인된 실무 기간</span><span class="num">10<small>개월+</small></span><span class="sub">기간 미기재 실무 2건은 합계에서 뺐습니다</span></div><div class="stat"><span class="lbl">수상</span><span class="num">2<small>회</small></span><span class="sub">최우수상 · 우수상</span></div><div class="stat"><span class="lbl">강점 분야</span><span class="num">7<small>개</small></span><span class="sub">경험 1건당 평균 2.3개 강점</span></div></div>
     <div class="dist">
       <div>
-        <h3>강점별 경험 수</h3>
+        <h3>강점별 경험 수<span class="tip"><button type="button" class="tip-btn" aria-label="설명 보기" aria-describedby="tip-dist">?</button><span class="tip-box" role="tooltip" id="tip-dist">한 경험이 여러 강점에 걸치면 강점마다 1건씩 셉니다.</span></span></h3>
         <p>한 경험이 여러 강점에 걸치면 각각 셌습니다. 가장 많은 경험에서 쓴 강점은 고객·외부기관 응대(5건)입니다.</p>
       </div>
       <div class="bars" role="list"><div class="bar-row" role="listitem" title="고객·외부기관 응대: 경험 5건">
@@ -455,7 +656,18 @@ html{scroll-behavior:smooth}
   </section>
 
   <section id="projects" aria-labelledby="list-h" style="display:grid;gap:16px">
-    <div><span class="eyebrow">전체 경험</span><h2 id="list-h">강점별 경험·프로젝트 목록</h2></div>
+    <div class="list-head">
+      <div><span class="eyebrow">전체 경험</span><h2 id="list-h">강점별 경험·프로젝트 목록<span class="tip"><button type="button" class="tip-btn" aria-label="설명 보기" aria-describedby="tip-kdc">?</button><span class="tip-box" role="tooltip" id="tip-kdc">왼쪽 번호는 KDC(한국십진분류법) 주류·강 번호입니다. 각 경험의 주제에 맞춰 직접 분류했습니다.</span></span></h2></div>
+      <div class="dd" id="sort-dd">
+        <button type="button" class="dd-btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="sort-menu"><span class="dd-k">정렬</span><span id="sort-cur">구분순</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <ul class="dd-menu" id="sort-menu" role="listbox" aria-label="정렬 방식">
+          <li role="option" tabindex="-1" data-sort="kind" data-label="구분순" aria-selected="true">구분순<small>실무 → 수상 → 개인 프로젝트</small></li>
+          <li role="option" tabindex="-1" data-sort="featured" data-label="대표 먼저" aria-selected="false">대표 먼저<small>대표 경험 3건을 위로</small></li>
+          <li role="option" tabindex="-1" data-sort="comps" data-label="강점 많은 순" aria-selected="false">강점 많은 순<small>여러 강점이 걸친 경험부터</small></li>
+          <li role="option" tabindex="-1" data-sort="title" data-label="가나다순" aria-selected="false">가나다순<small>제목 기준</small></li>
+        </ul>
+      </div>
+    </div>
     <input class="fl-in" type="radio" name="flt" id="f-all" checked>
     <input class="fl-in" type="radio" name="flt" id="f-doc">
     <input class="fl-in" type="radio" name="flt" id="f-admin">
@@ -485,60 +697,90 @@ html{scroll-behavior:smooth}
       <p class="d-ai">AI 코딩 도구와 디지털 도구로 아이디어를 직접 만들어 봅니다.</p>
     </div>
     <div class="list">
-      <a class="row c-doc c-admin c-cust" href="#p-public-intern">
+      <a class="row c-doc c-admin c-cust" href="#p-public-intern" data-i="0" data-kind="0" data-feat="1" data-nc="3" data-title="공공기관 현장실습">
         <span class="callno">350<br>행정학</span>
         <div style="min-width:0"><h3>공공기관 현장실습<span class="badge">대표</span></h3>
           <div class="meta"><span>실무</span><span>6개월</span><span>공공기관 · 현장실습 6개월</span></div></div>
         <div class="tags"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span></div>
       </a>
-      <a class="row c-admin c-cust c-doc" href="#p-scholarship-admin">
+      <a class="row c-admin c-cust c-doc" href="#p-scholarship-admin" data-i="1" data-kind="0" data-feat="0" data-nc="3" data-title="공공지원사업 행정·안내">
         <span class="callno">350<br>행정학</span>
         <div style="min-width:0"><h3>공공지원사업 행정·안내</h3>
           <div class="meta"><span>실무</span><span>2024.03 – 2024.06경</span><span>장학 관련 공공기관 · 파견직</span></div></div>
         <div class="tags"><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span></div>
       </a>
-      <a class="row c-cust c-doc" href="#p-children-library">
+      <a class="row c-cust c-doc" href="#p-children-library" data-i="2" data-kind="0" data-feat="0" data-nc="2" data-title="공립 어린이도서관 근로">
         <span class="callno">020<br>문헌정보학</span>
         <div style="min-width:0"><h3>공립 어린이도서관 근로</h3>
           <div class="meta"><span>실무</span><span>기간 미기재</span><span>대구 소재 공립 어린이도서관</span></div></div>
         <div class="tags"><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span></div>
       </a>
-      <a class="row c-cust" href="#p-service-job">
+      <a class="row c-cust" href="#p-service-job" data-i="3" data-kind="0" data-feat="0" data-nc="1" data-title="서비스직 고객 응대">
         <span class="callno">300<br>사회과학</span>
         <div style="min-width:0"><h3>서비스직 고객 응대</h3>
           <div class="meta"><span>실무</span><span>기간 미기재</span><span>맥도날드 등 · 학업 병행</span></div></div>
         <div class="tags"><span class="tag">고객·외부기관 응대</span></div>
       </a>
-      <a class="row c-plan c-ai c-cust" href="#p-aac-startup">
+      <a class="row c-plan c-ai c-cust" href="#p-aac-startup" data-i="4" data-kind="1" data-feat="1" data-nc="3" data-title="AI 기반 AAC 웨어러블 창업 프로젝트">
         <span class="callno">500<br>기술과학</span>
         <div style="min-width:0"><h3>AI 기반 AAC 웨어러블 창업 프로젝트<span class="badge">대표</span></h3>
           <div class="meta"><span>수상</span><span>기간 미기재</span><span>교내 AI 창업 공모전</span></div></div>
         <div class="tags"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span><span class="tag">고객·외부기관 응대</span></div>
       </a>
-      <a class="row c-video c-eng c-plan" href="#p-tour-video">
+      <a class="row c-video c-eng c-plan" href="#p-tour-video" data-i="5" data-kind="1" data-feat="1" data-nc="3" data-title="대구 관광 영상 제작">
         <span class="callno">600<br>예술</span>
         <div style="min-width:0"><h3>대구 관광 영상 제작<span class="badge">대표</span></h3>
           <div class="meta"><span>수상</span><span>2025.08</span><span>제1회 대구 글로벌 청년 관광교류 프로그램</span></div></div>
         <div class="tags"><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">기획·사업계획서</span></div>
       </a>
-      <a class="row c-plan c-ai" href="#p-wish-site">
+      <a class="row c-plan c-ai" href="#p-wish-site" data-i="6" data-kind="2" data-feat="0" data-nc="2" data-title="소원 검수 웹사이트">
         <span class="callno">004<br>컴퓨터과학</span>
         <div style="min-width:0"><h3>소원 검수 웹사이트<span class="badge">기획 단계</span></h3>
           <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
         <div class="tags"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span></div>
       </a>
-      <a class="row c-ai c-plan c-doc" href="#p-todo-app">
+      <a class="row c-ai c-plan c-doc" href="#p-todo-app" data-i="7" data-kind="2" data-feat="0" data-nc="3" data-title="할 일 관리 웹앱">
         <span class="callno">004<br>컴퓨터과학</span>
         <div style="min-width:0"><h3>할 일 관리 웹앱<span class="badge">진행 중</span></h3>
           <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
         <div class="tags"><span class="tag">AI·디지털 도구</span><span class="tag">기획·사업계획서</span><span class="tag">문서·자료 체계화</span></div>
       </a>
-      <a class="row c-video" href="#p-shortform">
+      <a class="row c-video" href="#p-shortform" data-i="8" data-kind="2" data-feat="0" data-nc="1" data-title="케이팝 숏폼 영상 편집">
         <span class="callno">600<br>예술</span>
         <div style="min-width:0"><h3>케이팝 숏폼 영상 편집<span class="badge">진행 중</span></h3>
           <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
         <div class="tags"><span class="tag">영상 기획·편집</span></div>
       </a></div>
+  </section>
+
+  <section id="faq" class="faq-sec" aria-labelledby="faq-h">
+    <div class="sec-head"><span class="eyebrow">자주 묻는 질문</span><h2 id="faq-h">면접 전에 궁금하실 것들</h2></div>
+    <div class="acc">
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-0" aria-expanded="false" aria-controls="a-0"><span class="acc-q"><i>Q1</i>도서관 실무 경험이 있나요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-0" role="region" aria-labelledby="q-0"><div class="acc-inner"><p>대구의 공립 어린이도서관에서 근로했습니다. 공공기관 현장실습(6개월)에서는 기술문서·도면 접수와 발송, 품질기록 관리를 맡아 문서를 체계적으로 다루는 실무를 익혔습니다.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-1" aria-expanded="false" aria-controls="a-1"><span class="acc-q"><i>Q2</i>가장 자신 있는 전공 분야는 무엇인가요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-1" role="region" aria-labelledby="q-1"><div class="acc-inner"><p>메타데이터와 자료분류입니다. 전공 과목 가운데 두 과목의 성적이 가장 높았습니다. 지금은 마케팅원론을 바탕으로 한 도서관마케팅을 수강하고 있습니다.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-2" aria-expanded="false" aria-controls="a-2"><span class="acc-q"><i>Q3</i>AAC 웨어러블은 실제로 작동하나요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-2" role="region" aria-labelledby="q-2"><div class="acc-inner"><p>아직 아닙니다. 아이템 구상, 시제품 기획, 사업계획서 작성까지 한 기획·사업화 준비 단계입니다. AI 모델 개발, 작동 시제품 제작, 투자 유치는 하지 않았고 사업자등록은 실제로 마쳤습니다.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-3" aria-expanded="false" aria-controls="a-3"><span class="acc-q"><i>Q4</i>수어로 의사소통할 수 있나요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-3" role="region" aria-labelledby="q-3"><div class="acc-inner"><p>수어 교양을 이수했습니다. 서비스직에서 일할 때 청각장애 고객이 만족도 조사에 참여할 수 있도록 수어로 도왔고, 그 일로 칭찬 VOC를 받았습니다.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-4" aria-expanded="false" aria-controls="a-4"><span class="acc-q"><i>Q5</i>영어로 협업할 수 있나요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-4" role="region" aria-labelledby="q-4"><div class="acc-inner"><p>제1회 대구 글로벌 청년 관광교류 프로그램에서 외국인 팀원 3명과 영어로 협업해 관광 영상을 만들었고 우수상을 받았습니다.</p></div></div>
+      </div>
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-5" aria-expanded="false" aria-controls="a-5"><span class="acc-q"><i>Q6</i>AI 도구는 어떻게 활용하나요?</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-5" role="region" aria-labelledby="q-5"><div class="acc-inner"><p>할 일 관리 웹앱을 만들 때 먼저 요구사항 문서(PRD)를 쓰고, AI 코딩 도구와 함께 단계별 구현 계획을 세워 순수 자바스크립트로 만들고 있습니다. 이 포트폴리오 사이트도 AI 도구와 함께 만들었습니다.</p></div></div>
+      </div>
+    </div>
   </section>
 
   <footer>
@@ -762,6 +1004,204 @@ html{scroll-behavior:smooth}
     <section><h4>증빙 1점</h4><ul class="evidence"><li><span class="ev-type">영상</span><span>편집 영상 링크</span><span class="ev-state">첨부 예정</span></li></ul></section>
   </div></div>
 </section>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-h" aria-hidden="true" inert>
+  <div class="drawer-in">
+    <div class="drawer-head"><h2 id="drawer-h">보기 설정</h2><button type="button" class="x-btn" id="drawer-close" aria-label="설정 닫기">×</button></div>
+    <fieldset class="seg"><legend>화면 테마</legend><div class="seg-opts"><input type="radio" name="opt-theme" id="opt-theme-system" value="system" checked><label for="opt-theme-system">시스템</label><input type="radio" name="opt-theme" id="opt-theme-light" value="light"><label for="opt-theme-light">밝게</label><input type="radio" name="opt-theme" id="opt-theme-dark" value="dark"><label for="opt-theme-dark">어둡게</label></div></fieldset>
+    <fieldset class="seg"><legend>글자 크기</legend><div class="seg-opts"><input type="radio" name="opt-size" id="opt-size-normal" value="normal" checked><label for="opt-size-normal">보통</label><input type="radio" name="opt-size" id="opt-size-large" value="large"><label for="opt-size-large">크게</label><input type="radio" name="opt-size" id="opt-size-xl" value="xl"><label for="opt-size-xl">아주 크게</label></div></fieldset>
+    <label class="switch-row" for="opt-calm"><span>움직임 줄이기<small>등장·떠오르기·펼침 효과를 끕니다</small></span><input type="checkbox" class="switch" id="opt-calm" role="switch"></label>
+    <p class="drawer-note">설정은 이 브라우저에만 저장됩니다.</p>
+  </div>
+</aside>
+<script>
+/* ===== 공통 UI 동작: 탭, 아코디언, 드롭다운, 드로어, 보기 설정 ===== */
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var root = document.documentElement;
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (_) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+  };
+
+  /* ---------- Tabs: 표시 막대가 미끄러지고 내용은 서서히 바뀜 ---------- */
+  var tablist = $(".tablist");
+  var syncTabs = function () {};
+  if (tablist) {
+    var tabs = $$('[role="tab"]', tablist);
+    var ind = $(".tab-ind", tablist);
+    var cur = tabs.filter(function (t) { return t.getAttribute("aria-selected") === "true"; })[0] || tabs[0];
+    var timer = null;
+    var panelOf = function (t) { return document.getElementById(t.getAttribute("aria-controls")); };
+    tabs.forEach(function (t) { if (t !== cur) panelOf(t).hidden = true; });
+
+    var moveInd = function (t, instant) {
+      if (instant) ind.style.transition = "none";
+      ind.style.width = t.offsetWidth + "px";
+      ind.style.transform = "translateX(" + t.offsetLeft + "px)";
+      if (instant) { void ind.offsetWidth; ind.style.transition = ""; }
+    };
+    var select = function (t, focus) {
+      if (focus) t.focus();
+      if (t === cur) return;
+      var oldP = panelOf(cur), newP = panelOf(t);
+      cur.setAttribute("aria-selected", "false"); cur.tabIndex = -1;
+      t.setAttribute("aria-selected", "true"); t.tabIndex = 0;
+      cur = t; moveInd(t);
+      clearTimeout(timer);
+      $$(".tabpanel").forEach(function (p) { if (p !== oldP) { p.hidden = true; p.classList.remove("out", "fade"); } });
+      oldP.classList.add("out");
+      timer = setTimeout(function () {
+        oldP.hidden = true; oldP.classList.remove("out", "fade");
+        newP.hidden = false; newP.classList.remove("fade"); void newP.offsetWidth; newP.classList.add("fade");
+      }, 160);
+    };
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t); });
+      t.addEventListener("keydown", function (e) {
+        var j = null;
+        if (e.key === "ArrowRight") j = (i + 1) % tabs.length;
+        else if (e.key === "ArrowLeft") j = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = tabs.length - 1;
+        if (j !== null) { e.preventDefault(); select(tabs[j], true); }
+      });
+    });
+    syncTabs = function () { moveInd(cur, true); };
+    syncTabs();
+    window.addEventListener("resize", syncTabs);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncTabs);
+  }
+
+  /* ---------- Accordion: 0.3초 동안 펼침, 화살표 180도 회전 ---------- */
+  $$(".acc-btn").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var item = b.closest(".acc-item");
+      var open = !item.classList.contains("open");
+      item.classList.toggle("open", open);
+      b.setAttribute("aria-expanded", String(open));
+    });
+  });
+
+  /* ---------- Dropdown: 정렬 메뉴 ---------- */
+  var dd = $("#sort-dd");
+  var closeDropdown = function () {};
+  if (dd) {
+    var btn = $("#sort-btn"), menu = $("#sort-menu"), curLabel = $("#sort-cur"), list = $(".list");
+    var opts = $$('[role="option"]', menu);
+    var n = function (el, k) { return Number(el.dataset[k]); };
+    var sorters = {
+      kind: function (a, b) { return n(a, "kind") - n(b, "kind") || n(a, "i") - n(b, "i"); },
+      featured: function (a, b) { return n(b, "feat") - n(a, "feat") || n(a, "i") - n(b, "i"); },
+      comps: function (a, b) { return n(b, "nc") - n(a, "nc") || n(a, "i") - n(b, "i"); },
+      title: function (a, b) { return a.dataset.title.localeCompare(b.dataset.title, "ko"); }
+    };
+    var setOpen = function (o, focusSel) {
+      dd.classList.toggle("open", o);
+      btn.setAttribute("aria-expanded", String(o));
+      if (o && focusSel) {
+        var sel = opts.filter(function (x) { return x.getAttribute("aria-selected") === "true"; })[0] || opts[0];
+        setTimeout(function () { sel.focus({ preventScroll: true }); }, 30);
+      }
+    };
+    closeDropdown = function () { if (dd.classList.contains("open")) setOpen(false); };
+    var apply = function (o) {
+      opts.forEach(function (x) { x.setAttribute("aria-selected", String(x === o)); });
+      curLabel.textContent = o.dataset.label;
+      $$(".row", list).sort(sorters[o.dataset.sort]).forEach(function (r) { list.appendChild(r); });
+    };
+    var choose = function (o) { apply(o); store.set("pf-sort", o.dataset.sort); setOpen(false); btn.focus({ preventScroll: true }); };
+
+    btn.addEventListener("click", function (e) { e.stopPropagation(); setOpen(!dd.classList.contains("open"), true); });
+    btn.addEventListener("keydown", function (e) { if (e.key === "ArrowDown") { e.preventDefault(); setOpen(true, true); } });
+    opts.forEach(function (o, i) {
+      o.addEventListener("click", function (e) { e.stopPropagation(); choose(o); });
+      o.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowDown") { e.preventDefault(); opts[(i + 1) % opts.length].focus(); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); opts[(i - 1 + opts.length) % opts.length].focus(); }
+        else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(o); }
+        else if (e.key === "Escape") { e.preventDefault(); setOpen(false); btn.focus(); }
+        else if (e.key === "Tab") { setOpen(false); }
+      });
+    });
+    document.addEventListener("click", function (e) { if (!dd.contains(e.target)) closeDropdown(); });
+    var saved = store.get("pf-sort");
+    var so = opts.filter(function (x) { return x.dataset.sort === saved; })[0];
+    if (so) apply(so);
+  }
+
+  /* ---------- Drawer: 오른쪽에서 Spring 모션으로 열림 ---------- */
+  var drawer = $("#drawer"), scrim = $("#scrim"), sbtn = $("#settings-btn");
+  var lastFocus = null;
+  var isOpen = function () { return drawer && drawer.classList.contains("open"); };
+  function openDrawer() {
+    lastFocus = document.activeElement;
+    drawer.removeAttribute("inert");
+    drawer.setAttribute("aria-hidden", "false");
+    drawer.classList.add("open"); scrim.classList.add("on");
+    sbtn.setAttribute("aria-expanded", "true");
+    document.body.classList.add("locked");
+    setTimeout(function () { $("#drawer-close").focus({ preventScroll: true }); }, 60);
+  }
+  function closeDrawer() {
+    if (!isOpen()) return;
+    drawer.classList.remove("open"); scrim.classList.remove("on");
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.setAttribute("inert", "");
+    sbtn.setAttribute("aria-expanded", "false");
+    if (!$(".detail.open")) document.body.classList.remove("locked");
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  if (drawer) {
+    sbtn.addEventListener("click", openDrawer);
+    scrim.addEventListener("click", closeDrawer);
+    $("#drawer-close").addEventListener("click", closeDrawer);
+    drawer.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab") return;
+      var f = $$('button, input, [tabindex]:not([tabindex="-1"])', drawer).filter(function (x) { return !x.disabled; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeDrawer(); closeDropdown(); }
+  });
+
+  /* ---------- 보기 설정 (이 브라우저에만 저장) ---------- */
+  var initialTheme = root.getAttribute("data-theme");
+  var applyTheme = function (v) {
+    if (v === "light" || v === "dark") root.setAttribute("data-theme", v);
+    else if (initialTheme) root.setAttribute("data-theme", initialTheme);
+    else root.removeAttribute("data-theme");
+  };
+  var applySize = function (v) {
+    root.classList.remove("fs-large", "fs-xl");
+    if (v === "large" || v === "xl") root.classList.add("fs-" + v);
+    requestAnimationFrame(syncTabs);
+  };
+  var applyCalm = function (on) { root.classList.toggle("calm", on); };
+  var bindRadios = function (name, key, fn, def) {
+    var v = store.get(key) || def;
+    $$('input[name="' + name + '"]').forEach(function (r) {
+      r.checked = r.value === v;
+      r.addEventListener("change", function () { if (r.checked) { fn(r.value); store.set(key, r.value); } });
+    });
+    if (v !== def) fn(v);
+  };
+  bindRadios("opt-theme", "pf-theme", applyTheme, "system");
+  bindRadios("opt-size", "pf-size", applySize, "normal");
+  var calm = $("#opt-calm");
+  if (calm) {
+    calm.checked = store.get("pf-calm") === "1";
+    applyCalm(calm.checked);
+    calm.addEventListener("change", function () { applyCalm(calm.checked); store.set("pf-calm", calm.checked ? "1" : "0"); });
+  }
+})();
+
+</script>
 <script>
 /* 링크 이동과 상세 창을 스크립트로 직접 처리합니다.
    (# 링크가 막히는 환경에서도 동작. 스크립트가 꺼져 있으면 CSS :target 방식으로 동작) */

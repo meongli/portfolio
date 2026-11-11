@@ -2,7 +2,7 @@
 // 완성된 HTML에는 내용이 모두 미리 들어가므로, 자바스크립트 없이도 화면이 보입니다.
 const fs = require("fs");
 const path = require("path");
-const { PROFILE, COMPETENCIES, KIND, PROJECTS } = require("./portfolio-data.js");
+const { PROFILE, COMPETENCIES, KIND, PROJECTS, FAQ, REVIEWS } = require("./portfolio-data.js");
 const css = fs.readFileSync(path.join(__dirname, "portfolio-style.css"), "utf8");
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -211,6 +211,85 @@ body.locked{overflow:hidden}
 html{scroll-behavior:smooth}
 `;
 
+/* ===== UI 컴포넌트 마크업 ===== */
+const uiCss = fs.readFileSync(path.join(__dirname, "portfolio-ui.css"), "utf8");
+const uiJs = fs.readFileSync(path.join(__dirname, "portfolio-ui.js"), "utf8");
+const chevron = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+const tip = (id, text) => `<span class="tip"><button type="button" class="tip-btn" aria-label="설명 보기" aria-describedby="${id}">?</button><span class="tip-box" role="tooltip" id="${id}">${esc(text)}</span></span>`;
+
+const tocItems = [
+  ["services", "할 수 있는 일", "강점을 카드로 정리", `강점 ${compKeys.length}`],
+  ["summary", "한눈에 보는 활동", "경험 데이터로 계산한 요약", `카드 ${stats.length}`],
+  ["highlights", "대표 경험", "먼저 보여드리고 싶은 경험", "3건"],
+  ["projects", "강점별 경험·프로젝트 목록", "거르기와 정렬, 상세 보기", `${PROJECTS.length}건`],
+  ["faq", "자주 묻는 질문", "면접 전에 궁금하실 것들", `${FAQ.length}문항`]
+];
+const panelIntro = `<div class="hero">
+      <div class="hero-text">
+        ${todo ? `<span class="todo">${esc(todo)}</span>` : ""}
+        <p class="lead">${esc(PROFILE.intro)}</p>
+        <div class="keywords">${compKeys.map(tag).join("")}</div>
+      </div>
+      <aside class="catalog" aria-label="자기소개 목록카드">
+        <div class="catalog-head"><span>KORMARC 형식 자기소개</span><span>경험 ${PROJECTS.length}건</span></div>
+        <dl class="marc">${marc.map(([t, v]) => `<dt>${t}</dt><dd>${v}</dd>`).join("")}</dl>
+      </aside>
+    </div>`;
+const panelToc = `<ol class="toc">${tocItems.map(([id, t, d, n], i) => `
+      <li><a href="#${id}"><span class="toc-no">${i + 1}</span><span class="toc-t"><b>${esc(t)}</b><small>${esc(d)}</small></span><span class="toc-dots" aria-hidden="true"></span><span class="toc-n">${esc(n)}</span></a></li>`).join("")}
+    </ol>`;
+const panelReview = `<div class="reviews">${REVIEWS.map(r => `
+      <a class="review" href="#p-${r.link}">
+        <span class="rv-stamp">${esc(r.label)}</span>
+        <span class="rv-body"><span class="rv-src">${esc(r.source)}</span><p>${esc(r.text)}</p><span class="rv-more">관련 경험 보기 →</span></span>
+      </a>`).join("")}
+    </div>`;
+const TABS = [["intro", "소개", panelIntro], ["toc", "목차", panelToc], ["review", "서평", panelReview]];
+const tabsSection = `<section id="about" class="tabs-sec rise" style="--i:7" aria-labelledby="about-h">
+    <div class="sec-head"><span class="eyebrow">이 포트폴리오에 대하여</span><h2 id="about-h">소개 · 목차 · 서평</h2></div>
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="소개, 목차, 서평">
+        ${TABS.map(([k, l], i) => `<button type="button" class="tab" role="tab" id="tab-${k}" aria-controls="panel-${k}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${l}</button>`).join("\n        ")}
+        <span class="tab-ind" aria-hidden="true"></span>
+      </div>
+      ${TABS.map(([k, l, body]) => `<div class="tabpanel" role="tabpanel" id="panel-${k}" aria-labelledby="tab-${k}" tabindex="0">
+        <h3 class="panel-title">${l}</h3>
+        ${body}
+      </div>`).join("\n      ")}
+    </div>
+  </section>`;
+
+const faqSection = `<section id="faq" class="faq-sec" aria-labelledby="faq-h">
+    <div class="sec-head"><span class="eyebrow">자주 묻는 질문</span><h2 id="faq-h">면접 전에 궁금하실 것들</h2></div>
+    <div class="acc">${FAQ.map(([q, a], i) => `
+      <div class="acc-item">
+        <h3><button type="button" class="acc-btn" id="q-${i}" aria-expanded="false" aria-controls="a-${i}"><span class="acc-q"><i>Q${i + 1}</i>${esc(q)}</span><svg class="acc-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3>
+        <div class="acc-panel" id="a-${i}" role="region" aria-labelledby="q-${i}"><div class="acc-inner"><p>${esc(a)}</p></div></div>
+      </div>`).join("")}
+    </div>
+  </section>`;
+
+const SORTS = [["kind", "구분순", "실무 → 수상 → 개인 프로젝트"], ["featured", "대표 먼저", "대표 경험 3건을 위로"], ["comps", "강점 많은 순", "여러 강점이 걸친 경험부터"], ["title", "가나다순", "제목 기준"]];
+const sortDropdown = `<div class="dd" id="sort-dd">
+        <button type="button" class="dd-btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="sort-menu"><span class="dd-k">정렬</span><span id="sort-cur">${SORTS[0][1]}</span>${chevron}</button>
+        <ul class="dd-menu" id="sort-menu" role="listbox" aria-label="정렬 방식">
+          ${SORTS.map(([k, l, d], i) => `<li role="option" tabindex="-1" data-sort="${k}" data-label="${l}" aria-selected="${i === 0}">${l}<small>${d}</small></li>`).join("\n          ")}
+        </ul>
+      </div>`;
+
+const settingsBtn = `<button type="button" class="icon-btn" id="settings-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>설정</button>`;
+const seg = (name, legend, opts) => `<fieldset class="seg"><legend>${legend}</legend><div class="seg-opts">${opts.map(([v, l], i) => `<input type="radio" name="${name}" id="${name}-${v}" value="${v}"${i === 0 ? " checked" : ""}><label for="${name}-${v}">${l}</label>`).join("")}</div></fieldset>`;
+const drawerHtml = `<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-h" aria-hidden="true" inert>
+  <div class="drawer-in">
+    <div class="drawer-head"><h2 id="drawer-h">보기 설정</h2><button type="button" class="x-btn" id="drawer-close" aria-label="설정 닫기">×</button></div>
+    ${seg("opt-theme", "화면 테마", [["system", "시스템"], ["light", "밝게"], ["dark", "어둡게"]])}
+    ${seg("opt-size", "글자 크기", [["normal", "보통"], ["large", "크게"], ["xl", "아주 크게"]])}
+    <label class="switch-row" for="opt-calm"><span>움직임 줄이기<small>등장·떠오르기·펼침 효과를 끕니다</small></span><input type="checkbox" class="switch" id="opt-calm" role="switch"></label>
+    <p class="drawer-note">설정은 이 브라우저에만 저장됩니다.</p>
+  </div>
+</aside>`;
+
 const html = `<title>문헌정보 포트폴리오</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -221,9 +300,15 @@ ${css}
 ${extraCss}
 ${heroCss}
 ${svcCss}
+${uiCss}
 </style>
+<script>document.documentElement.classList.add("js")</script>
 
 <div class="wrap">
+  <div class="topbar">
+    <span class="brand">LIS PORTFOLIO</span>
+    ${settingsBtn}
+  </div>
   <header class="top-hero">
     <div class="top-hero-text">
       <span class="eyebrow rise" style="--i:0">${esc(PROFILE.major)} · ${PROFILE.grad ? esc(PROFILE.grad) + " " : ""}졸업예정${PROFILE.name ? " · " + esc(PROFILE.name) : ""}</span>
@@ -244,35 +329,24 @@ ${svcCss}
     </figure>
   </header>
 
-  <section class="services rise" style="--i:6" aria-labelledby="svc-h">
+  <section id="services" class="services rise" style="--i:6" aria-labelledby="svc-h">
     <div><span class="eyebrow">할 수 있는 일</span><h2 id="svc-h">이런 일을 맡길 수 있습니다</h2></div>
     <div class="svc-grid">
     ${svcCards}
     </div>
   </section>
 
-  <section class="hero rise" style="--i:7" aria-labelledby="about-h">
-    <div class="hero-text">
-      ${todo ? `<span class="todo">${esc(todo)}</span>` : ""}
-      <h2 id="about-h">자기소개</h2>
-      <p class="lead">${esc(PROFILE.intro)}</p>
-      <div class="keywords">${compKeys.map(tag).join("")}</div>
-    </div>
-    <aside class="catalog" aria-label="자기소개 목록카드">
-      <div class="catalog-head"><span>KORMARC 형식 자기소개</span><span>경험 ${PROJECTS.length}건</span></div>
-      <dl class="marc">${marc.map(([t, v]) => `<dt>${t}</dt><dd>${v}</dd>`).join("")}</dl>
-    </aside>
-  </section>
+  ${tabsSection}
 
-  <section class="summary" aria-labelledby="sum-h">
+  <section id="summary" class="summary" aria-labelledby="sum-h">
     <div class="summary-head">
-      <h2 id="sum-h">한눈에 보는 활동</h2>
+      <h2 id="sum-h">한눈에 보는 활동${tip("tip-sum", "모든 숫자는 경험 데이터에서 자동으로 계산합니다. 기간을 모르는 경험은 기간 합계에서 뺍니다.")}</h2>
       <span class="eyebrow">경험 ${PROJECTS.length}건 데이터로 계산</span>
     </div>
     <div class="stats">${stats.map(([l, n, u, s]) => `<div class="stat"><span class="lbl">${l}</span><span class="num">${n}<small>${u}</small></span><span class="sub">${esc(s)}</span></div>`).join("")}</div>
     <div class="dist">
       <div>
-        <h3>강점별 경험 수</h3>
+        <h3>강점별 경험 수${tip("tip-dist", "한 경험이 여러 강점에 걸치면 강점마다 1건씩 셉니다.")}</h3>
         <p>한 경험이 여러 강점에 걸치면 각각 셌습니다. 가장 많은 경험에서 쓴 강점은 ${esc(COMPETENCIES[order[0]].name)}(${compCount[order[0]]}건)입니다.</p>
       </div>
       <div class="bars" role="list">${order.map(k => `<div class="bar-row" role="listitem" title="${esc(COMPETENCIES[k].name)}: 경험 ${compCount[k]}건">
@@ -293,7 +367,10 @@ ${svcCss}
   </section>
 
   <section id="projects" aria-labelledby="list-h" style="display:grid;gap:16px">
-    <div><span class="eyebrow">전체 경험</span><h2 id="list-h">강점별 경험·프로젝트 목록</h2></div>
+    <div class="list-head">
+      <div><span class="eyebrow">전체 경험</span><h2 id="list-h">강점별 경험·프로젝트 목록${tip("tip-kdc", "왼쪽 번호는 KDC(한국십진분류법) 주류·강 번호입니다. 각 경험의 주제에 맞춰 직접 분류했습니다.")}</h2></div>
+      ${sortDropdown}
+    </div>
     ${["all", ...compKeys].map(k => `<input class="fl-in" type="radio" name="flt" id="f-${k}"${k === "all" ? " checked" : ""}>`).join("\n    ")}
     <div class="filters" role="group" aria-label="강점으로 거르기">
       <label for="f-all">전체<span class="c">${PROJECTS.length}</span></label>
@@ -303,8 +380,8 @@ ${svcCss}
       <p class="d-all">실무, 수상, 개인 프로젝트를 모두 모았습니다. 항목을 누르면 역할·과정·결과·증빙이 열립니다.</p>
       ${compKeys.map(k => `<p class="d-${k}">${esc(COMPETENCIES[k].desc)}</p>`).join("\n      ")}
     </div>
-    <div class="list">${rows.map(p => `
-      <a class="row ${p.comps.map(c => "c-" + c).join(" ")}" href="#p-${p.id}">
+    <div class="list">${rows.map((p, i) => `
+      <a class="row ${p.comps.map(c => "c-" + c).join(" ")}" href="#p-${p.id}" data-i="${i}" data-kind="${kindOrder[p.kind]}" data-feat="${p.featured ? 1 : 0}" data-nc="${p.comps.length}" data-title="${esc(p.title)}">
         ${callHtml(p)}
         <div style="min-width:0"><h3>${esc(p.title)}${p.featured ? '<span class="badge">대표</span>' : ""}${p.status ? `<span class="badge">${esc(p.status)}</span>` : ""}</h3>
           <div class="meta"><span>${KIND[p.kind]}</span><span>${esc(periodText(p))}</span><span>${esc(p.context)}</span></div></div>
@@ -312,12 +389,18 @@ ${svcCss}
       </a>`).join("")}</div>
   </section>
 
+  ${faqSection}
+
   <footer>
     <span>각 경험에는 주제에 맞는 KDC 주류·강 번호를 붙였습니다.</span>
     <span>최종 갱신 2026. 11. · 경험 ${PROJECTS.length}건</span>
   </footer>
 </div>
 ${PROJECTS.map(detail).join("\n")}
+${drawerHtml}
+<script>
+${uiJs}
+</script>
 <script>
 /* 링크 이동과 상세 창을 스크립트로 직접 처리합니다.
    (# 링크가 막히는 환경에서도 동작. 스크립트가 꺼져 있으면 CSS :target 방식으로 동작) */
