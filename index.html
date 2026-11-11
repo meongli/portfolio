@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="문헌정보학 전공 졸업예정자의 실무·수상·개인 프로젝트 포트폴리오">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>문헌정보 포트폴리오</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 도서관 서가 개념 — 목록카드(MARC 레코드)형 자기소개, 청구기호가 붙은 장서 목록, 반납일 도장 색의 포인트 */
+:root{
+  --paper:#f4f6f3;
+  --card:#ffffff;
+  --ink:#1b2622;
+  --ink-2:#4a5853;
+  --ink-3:#77847f;
+  --rule:#d5ddd8;
+  --shelf:#1f5544;
+  --shelf-soft:#e2ece7;
+  --stamp:#3a46a6;
+  --stamp-soft:#e6e8f6;
+  --bar:#2f7a62;
+  --font-display:"Gowun Batang","Nanum Myeongjo",serif;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --shadow:0 1px 2px rgba(20,40,32,.06),0 6px 20px rgba(20,40,32,.06);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#121816;--card:#1a221f;--ink:#e6ece9;--ink-2:#b1bdb8;--ink-3:#84928c;--rule:#2d3834;
+  --shelf:#7cc4a8;--shelf-soft:#1f3029;--stamp:#9ea8f2;--stamp-soft:#252a48;--bar:#5fb393;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121816;--card:#1a221f;--ink:#e6ece9;--ink-2:#b1bdb8;--ink-3:#84928c;--rule:#2d3834;
+  --shelf:#7cc4a8;--shelf-soft:#1f3029;--stamp:#9ea8f2;--stamp-soft:#252a48;--bar:#5fb393;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.7;word-break:keep-all}
+.wrap{max-width:1080px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:64px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;text-wrap:balance;margin:0;line-height:1.3}
+h2{font-size:1.65rem}
+p{margin:0}
+.eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+:focus-visible{outline:2px solid var(--stamp);outline-offset:2px;border-radius:4px}
+.todo{font-size:.8rem;color:var(--ink-3);border:1px dashed var(--rule);border-radius:6px;padding:6px 10px;justify-self:start}
+.blank{color:var(--ink-3);border-bottom:1px dashed var(--ink-3)}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.hero-text{display:grid;gap:18px;min-width:0}
+.hero h1{font-size:clamp(1.9rem,4.4vw,2.8rem)}
+.hero h1 small{display:block;font-family:var(--font-body);font-weight:500;font-size:1rem;color:var(--shelf);margin-bottom:8px}
+.lead{font-size:1.05rem;color:var(--ink-2);max-width:34em}
+.keywords{display:flex;flex-wrap:wrap;gap:6px}
+.catalog{background:var(--card);border:1px solid var(--rule);border-radius:4px;box-shadow:var(--shadow);padding:22px 22px 30px;position:relative;font-family:var(--font-mono);font-size:.82rem;min-width:0}
+.catalog::after{content:"";position:absolute;left:50%;bottom:12px;width:14px;height:14px;margin-left:-7px;border-radius:50%;border:1px solid var(--rule);background:var(--paper)}
+.catalog-head{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:10px;color:var(--ink-3)}
+.marc{display:grid;grid-template-columns:3.2em 1fr;gap:6px 12px;margin:0}
+.marc dt{color:var(--stamp);font-weight:500}
+.marc dd{margin:0;color:var(--ink);font-family:var(--font-body);font-size:.88rem;line-height:1.55}
+.marc dd i{font-style:normal;color:var(--ink-3);font-family:var(--font-mono);font-size:.78rem;margin-right:4px}
+
+/* Stats */
+.summary{display:grid;gap:14px}
+.summary-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.stat{background:var(--card);padding:18px 20px;display:grid;gap:2px;align-content:start}
+.stat .num{font-family:var(--font-display);font-size:2.1rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.stat .num small{font-family:var(--font-body);font-size:.9rem;color:var(--ink-3);margin-left:3px}
+.stat .lbl{font-size:.85rem;color:var(--ink-2);font-weight:500}
+.stat .sub{font-size:.76rem;color:var(--ink-3)}
+.dist{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:28px;background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:20px}
+.dist h3{font-size:1.05rem;margin-bottom:4px}
+.dist p{font-size:.85rem;color:var(--ink-2)}
+.bars{display:grid;gap:9px;min-width:0}
+.bar-row{display:grid;grid-template-columns:9.5em 1fr 3em;gap:10px;align-items:center;font-size:.85rem}
+.bar-row .track{height:12px;position:relative}
+.bar-row .fill{position:absolute;left:0;top:0;bottom:0;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px}
+.bar-row .val{font-variant-numeric:tabular-nums;color:var(--ink-2);text-align:right;font-family:var(--font-mono);font-size:.8rem}
+.bar-row:hover .fill{filter:brightness(1.12)}
+
+/* Featured */
+.featured{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.spine{all:unset;cursor:pointer;display:grid;grid-template-rows:auto 1fr auto;gap:14px;background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:20px;box-shadow:var(--shadow);transition:transform .2s,border-color .2s;min-width:0}
+.spine:hover{transform:translateY(-3px);border-color:var(--shelf)}
+.spine:focus-visible{outline:2px solid var(--stamp);outline-offset:3px}
+.callno{display:inline-flex;flex-direction:column;font-family:var(--font-mono);font-size:.78rem;line-height:1.35;background:var(--shelf-soft);color:var(--shelf);padding:6px 10px;border-radius:3px;justify-self:start}
+.spine h3{font-size:1.2rem;margin-bottom:8px}
+.spine p{font-size:.88rem;color:var(--ink-2)}
+.spine-metric{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--rule);padding-top:12px;gap:8px}
+.spine-metric b{font-family:var(--font-display);font-size:1.4rem}
+.spine-metric span{font-size:.78rem;color:var(--ink-3);text-align:right}
+
+/* List */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{all:unset;cursor:pointer;font-size:.85rem;padding:6px 14px;border:1px solid var(--rule);border-radius:999px;color:var(--ink-2);background:var(--card)}
+.chip:hover{border-color:var(--shelf);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+.chip:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.chip .c{font-family:var(--font-mono);font-size:.75rem;opacity:.75;margin-left:4px}
+.comp-desc{font-size:.88rem;color:var(--ink-2);min-height:1.5em}
+.list{display:grid;border-top:1px solid var(--ink)}
+.row{all:unset;cursor:pointer;display:grid;grid-template-columns:7.5em minmax(0,1fr) auto;gap:18px;align-items:center;padding:16px 8px;border-bottom:1px solid var(--rule)}
+.row:hover{background:var(--card)}
+.row:focus-visible{outline:2px solid var(--stamp);outline-offset:-2px}
+.row .callno{background:none;padding:0}
+.row h3{font-family:var(--font-body);font-weight:600;font-size:1rem}
+.row .meta{font-size:.8rem;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:22em}
+.tag{font-size:.74rem;padding:2px 8px;border-radius:3px;background:var(--shelf-soft);color:var(--shelf);white-space:nowrap}
+.tag.plain{background:var(--paper);color:var(--ink-2);border:1px solid var(--rule)}
+.badge{color:var(--stamp);font-family:var(--font-mono);font-size:.72rem;border:1px solid currentColor;border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+
+/* Dialog */
+.dlg{display:grid;gap:26px;padding:28px}
+.dlg-head{display:grid;gap:10px;position:relative;padding-right:40px}
+.dlg-head h2{font-size:1.6rem}
+.close{all:unset;cursor:pointer;position:absolute;right:0;top:0;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--rule);font-size:1.1rem;color:var(--ink-2)}
+.close:hover{border-color:var(--ink)}
+.close:focus-visible{outline:2px solid var(--stamp);outline-offset:2px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-size:.82rem}
+.facts div{display:grid}
+.facts b{font-weight:500;color:var(--ink-3);font-size:.74rem}
+.dlg section{display:grid;gap:10px}
+.dlg h4{margin:0;font-family:var(--font-mono);font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--stamp);display:flex;align-items:center;gap:10px}
+.dlg h4::after{content:"";flex:1;height:1px;background:var(--rule)}
+.role{font-size:.95rem}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2em 1fr;gap:8px;font-size:.92rem;color:var(--ink-2)}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--font-mono);color:var(--ink-3);font-size:.8rem;padding-top:2px}
+.steps li strong{color:var(--ink);font-weight:600}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.result{border:1px solid var(--rule);border-radius:4px;padding:12px 14px;display:grid}
+.result b{font-family:var(--font-display);font-size:1.3rem}
+.result span{font-size:.8rem;color:var(--ink-2)}
+.outcome{font-size:.92rem;color:var(--ink-2)}
+.evidence{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.evidence li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;background:var(--paper);border-radius:4px;font-size:.88rem}
+.ev-type{font-family:var(--font-mono);font-size:.7rem;padding:2px 7px;border-radius:3px;background:var(--stamp-soft);color:var(--stamp);white-space:nowrap}
+.ev-state{font-size:.75rem;color:var(--ink-3);white-space:nowrap}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+
+footer{font-size:.8rem;color:var(--ink-3);border-top:1px solid var(--rule);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .featured{grid-template-columns:1fr}
+  .dist{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .row{grid-template-columns:1fr;gap:6px}
+  .tags{justify-content:flex-start}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .dlg{padding:20px}
+  .evidence li{grid-template-columns:auto 1fr}
+  .ev-state{grid-column:2}
+  .bar-row{grid-template-columns:8em 1fr 2.5em}
+}
+
+
+
+.fl-in{position:absolute;opacity:0;pointer-events:none}
+.filters label{cursor:pointer;font-size:.85rem;padding:6px 14px;border:1px solid var(--rule);border-radius:999px;color:var(--ink-2);background:var(--card)}
+.filters label:hover{border-color:var(--shelf);color:var(--ink)}
+.filters label .c{font-family:var(--font-mono);font-size:.75rem;opacity:.75;margin-left:4px}
+.descs p{display:none;font-size:.88rem;color:var(--ink-2)}
+a.row,a.spine{color:inherit;text-decoration:none}
+.detail{display:none;position:fixed;inset:0;z-index:20;overflow-y:auto;padding-block:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.detail:target{display:block}
+.backdrop{position:fixed;inset:0;background:rgba(10,20,16,.55)}
+.panel{position:relative;max-width:760px;margin:0 auto;background:var(--card);border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+a.close{text-decoration:none}
+
+#f-all:checked ~ .filters label[for="f-all"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-all:checked ~ .descs .d-all{display:block}
+#f-all:focus-visible ~ .filters label[for="f-all"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-doc:checked ~ .filters label[for="f-doc"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-doc:checked ~ .descs .d-doc{display:block}
+#f-doc:focus-visible ~ .filters label[for="f-doc"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-admin:checked ~ .filters label[for="f-admin"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-admin:checked ~ .descs .d-admin{display:block}
+#f-admin:focus-visible ~ .filters label[for="f-admin"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-cust:checked ~ .filters label[for="f-cust"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-cust:checked ~ .descs .d-cust{display:block}
+#f-cust:focus-visible ~ .filters label[for="f-cust"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-plan:checked ~ .filters label[for="f-plan"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-plan:checked ~ .descs .d-plan{display:block}
+#f-plan:focus-visible ~ .filters label[for="f-plan"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-video:checked ~ .filters label[for="f-video"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-video:checked ~ .descs .d-video{display:block}
+#f-video:focus-visible ~ .filters label[for="f-video"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-eng:checked ~ .filters label[for="f-eng"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-eng:checked ~ .descs .d-eng{display:block}
+#f-eng:focus-visible ~ .filters label[for="f-eng"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-ai:checked ~ .filters label[for="f-ai"]{background:var(--shelf);border-color:var(--shelf);color:var(--card)}
+#f-ai:checked ~ .descs .d-ai{display:block}
+#f-ai:focus-visible ~ .filters label[for="f-ai"]{outline:2px solid var(--stamp);outline-offset:2px}
+#f-doc:checked ~ .list .row:not(.c-doc){display:none}
+#f-admin:checked ~ .list .row:not(.c-admin){display:none}
+#f-cust:checked ~ .list .row:not(.c-cust){display:none}
+#f-plan:checked ~ .list .row:not(.c-plan){display:none}
+#f-video:checked ~ .list .row:not(.c-video){display:none}
+#f-eng:checked ~ .list .row:not(.c-eng){display:none}
+#f-ai:checked ~ .list .row:not(.c-ai){display:none}
+
+
+.top-hero{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center;padding-block:16px 0}
+.top-hero-text{display:grid;gap:20px;min-width:0}
+.top-hero h1{font-size:clamp(2.1rem,5vw,3.3rem);line-height:1.22}
+.hero-desc{font-size:1.08rem;color:var(--ink-2);max-width:32em}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 20px;border-radius:6px;font-weight:600;font-size:.95rem;text-decoration:none;transition:filter .2s,border-color .2s,transform .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--shelf);color:var(--card);border:1px solid var(--shelf)}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{border:1px solid var(--ink-3);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 32px;margin:4px 0 0;padding-top:16px;border-top:1px solid var(--rule)}
+.hero-facts div{display:grid}
+.hero-facts dt{font-size:.74rem;color:var(--ink-3)}
+.hero-facts dd{margin:0;font-weight:500;font-size:.92rem}
+.hero-art{margin:0;min-width:0;justify-self:center;width:100%;max-width:460px}
+.hero-art svg{display:block;width:100%;height:auto;overflow:visible}
+.c-card{fill:var(--card);stroke:var(--rule);stroke-width:1.2}
+.c-tab{font:500 12px var(--font-body);fill:var(--ink-2)}
+.c-front{fill:var(--card);stroke:var(--ink-3);stroke-width:1.2}
+.c-red{stroke:var(--stamp);stroke-width:1;opacity:.5}
+.c-line{stroke:var(--rule);stroke-width:1}
+.c-mono{font:500 12px var(--font-mono);fill:var(--ink-3)}
+.c-title{font:700 20px var(--font-display);fill:var(--ink)}
+.c-body{font:400 13px var(--font-body);fill:var(--ink-2)}
+.c-stamp{fill:none;stroke:var(--stamp);stroke-width:2.4;opacity:.85}
+.c-stamp.thin{stroke-width:1}
+.c-stamp-t{font:700 13px var(--font-body);fill:var(--stamp);opacity:.9}
+.c-drawer{fill:var(--shelf)}
+.c-plate{fill:var(--paper);stroke:var(--card);stroke-width:1}
+.c-plate-t{font:500 12px var(--font-mono);fill:var(--ink-2)}
+.c-handle{fill:none;stroke:var(--paper);stroke-width:5;stroke-linecap:round}
+@keyframes rise{from{opacity:0;transform:translateY(-18px)}}
+.rise{animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 130ms)}
+.drop{animation:rise .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(450ms + var(--d,0) * 90ms);transform-box:fill-box}
+@media (max-width:860px){.top-hero{grid-template-columns:1fr}.hero-art{max-width:400px}}
+@keyframes fadein{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.rise,.drop{animation-name:fadein}}
+.js .detail:target:not(.open){display:none}
+.detail.open{display:block}
+body.locked{overflow:hidden}
+html{scroll-behavior:smooth}
+
+
+.services{display:grid;gap:18px}
+.svc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.svc{cursor:pointer;display:grid;grid-template-rows:auto auto 1fr auto;gap:10px;padding:22px;background:var(--card);border:1px solid var(--rule);border-radius:8px;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;min-width:0}
+.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--shelf)}
+.svc:active{transform:translateY(-2px)}
+.svc-wide{grid-column:span 2;background:var(--shelf-soft);border-color:transparent}
+.svc-wide h3{font-size:1.35rem}
+.svc-icon{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;background:var(--shelf-soft);color:var(--shelf)}
+.svc-wide .svc-icon{background:var(--card)}
+.svc-icon svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{font-size:1.1rem}
+.svc p{font-size:.88rem;color:var(--ink-2)}
+.svc-foot{font-size:.78rem;color:var(--ink-3);padding-top:10px;border-top:1px solid var(--rule)}
+.svc:hover .svc-foot{color:var(--shelf)}
+@media (max-width:860px){.svc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.svc-grid{grid-template-columns:1fr}.svc-wide{grid-column:auto}}
+@media (prefers-reduced-motion:reduce){.svc:hover{transform:translateY(-4px)}}
+
+</style>
+
+<div class="wrap">
+  <header class="top-hero">
+    <div class="top-hero-text">
+      <span class="eyebrow rise" style="--i:0">문헌정보학 전공 · 졸업예정</span>
+      <h1 class="rise" style="--i:1">문서를 정확하게 다루고, 사람에게 맞춰 안내하는 예비 사서</h1>
+      <p class="hero-desc rise" style="--i:2">공공기관에서 기술문서와 품질기록을 다뤘고, 장학 행정 안내와 어린이도서관 근로로 이용자를 만났습니다. 청각장애인의 의사소통을 돕는 AAC 웨어러블을 기획해 교내 AI 창업 공모전 최우수상을 받았습니다.</p>
+      <div class="cta rise" style="--i:3">
+        <a class="btn btn-primary" href="#highlights">대표 경험 보기</a>
+        <a class="btn btn-ghost" href="#projects">전체 목록 보기 <span aria-hidden="true">↓</span></a>
+      </div>
+      <dl class="hero-facts rise" style="--i:4">
+        <div><dt>실무</dt><dd>4건 · 10개월+</dd></div>
+        <div><dt>수상</dt><dd>최우수상 · 우수상</dd></div>
+        <div><dt>강점</dt><dd>7개 분야</dd></div>
+      </dl>
+    </div>
+    <figure class="hero-art rise" style="--i:3" aria-label="강점별 경험 카드가 꽂힌 목록함 그림">
+      <svg viewBox="0 0 440 380" role="img" aria-hidden="true">
+  <g class="drop" style="--d:0">
+    <rect class="c-card" x="72" y="22" width="52" height="26" rx="4"/>
+    <text class="c-tab" x="98" y="39" text-anchor="middle">문서</text>
+    <rect class="c-card" x="56" y="44" width="328" height="220" rx="4"/>
+  </g><g class="drop" style="--d:1">
+    <rect class="c-card" x="130" y="37" width="52" height="26" rx="4"/>
+    <text class="c-tab" x="156" y="54" text-anchor="middle">행정</text>
+    <rect class="c-card" x="56" y="59" width="328" height="220" rx="4"/>
+  </g><g class="drop" style="--d:2">
+    <rect class="c-card" x="188" y="52" width="52" height="26" rx="4"/>
+    <text class="c-tab" x="214" y="69" text-anchor="middle">응대</text>
+    <rect class="c-card" x="56" y="74" width="328" height="220" rx="4"/>
+  </g><g class="drop" style="--d:3">
+    <rect class="c-card" x="246" y="67" width="52" height="26" rx="4"/>
+    <text class="c-tab" x="272" y="84" text-anchor="middle">기획</text>
+    <rect class="c-card" x="56" y="89" width="328" height="220" rx="4"/>
+  </g><g class="drop" style="--d:4">
+    <rect class="c-card" x="304" y="82" width="52" height="26" rx="4"/>
+    <text class="c-tab" x="330" y="99" text-anchor="middle">영상</text>
+    <rect class="c-card" x="56" y="104" width="328" height="220" rx="4"/>
+  </g>
+  <g class="drop" style="--d:5"><g transform="rotate(-3 220 190)">
+    <rect class="c-front" x="70" y="118" width="300" height="190" rx="4"/>
+    <line class="c-red" x1="70" y1="150" x2="370" y2="150"/>
+    <text class="c-mono" x="88" y="140">500  기술과학</text>
+    <text class="c-title" x="88" y="180">AI 기반 AAC 웨어러블</text>
+    <text class="c-body" x="88" y="204">청각장애인의 의사소통을 돕는 기획</text>
+    <line class="c-line" x1="88" y1="222" x2="300" y2="222"/>
+    <g transform="rotate(-12 318 188)">
+      <circle class="c-stamp" cx="318" cy="188" r="30"/>
+      <circle class="c-stamp thin" cx="318" cy="188" r="24"/>
+      <text class="c-stamp-t" x="318" y="193" text-anchor="middle">최우수</text>
+    </g>
+  </g></g>
+  <g class="drop" style="--d:6">
+    <rect class="c-drawer" x="36" y="236" width="368" height="130" rx="6"/>
+    <rect class="c-plate" x="168" y="258" width="104" height="36" rx="3"/>
+    <text class="c-plate-t" x="220" y="281" text-anchor="middle">300 – 600</text>
+    <path class="c-handle" d="M188 318 q32 22 64 0"/>
+  </g>
+</svg>
+    </figure>
+  </header>
+
+  <section class="services rise" style="--i:6" aria-labelledby="svc-h">
+    <div><span class="eyebrow">할 수 있는 일</span><h2 id="svc-h">이런 일을 맡길 수 있습니다</h2></div>
+    <div class="svc-grid">
+    <label class="svc svc-wide" for="f-cust" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h11v8H9l-3 3v-3H4z"/><path d="M15 9h5v8h-2v3l-3-3h-4v-2"/></svg></span>
+      <h3>고객·외부기관 응대</h3>
+      <p>공급사, 엔지니어, 기업체, 대학, 고객까지 상대에 맞춰 안내합니다.</p>
+      <span class="svc-foot">관련 경험 5건 · 공공기관 현장실습, AI 기반 AAC 웨어러블 창업 프로젝트, 공공지원사업 행정·안내 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-doc" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 12h6M10 15h6M10 18h4"/></svg></span>
+      <h3>문서·자료 체계화</h3>
+      <p>문서를 접수·검토·발송하고 기록을 관리하며, 메타데이터와 분류로 자료를 정리합니다.</p>
+      <span class="svc-foot">관련 경험 4건 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-plan" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.4.3.5.7.5 1.1v.9h6V15c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/></svg></span>
+      <h3>기획·사업계획서</h3>
+      <p>아이템을 구상하고 사업계획서와 서비스 기획 문서를 씁니다.</p>
+      <span class="svc-foot">관련 경험 4건 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-ai" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="M18 15l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1-2.1-.9 2.1-.9z"/></svg></span>
+      <h3>AI·디지털 도구</h3>
+      <p>AI 코딩 도구와 디지털 도구로 아이디어를 직접 만들어 봅니다.</p>
+      <span class="svc-foot">관련 경험 3건 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-admin" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 21h18"/></svg></span>
+      <h3>공공 행정 실무</h3>
+      <p>공공기관의 전자문서 시스템과 서류 처리 절차를 실제로 다뤄 봤습니다.</p>
+      <span class="svc-foot">관련 경험 2건 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-video" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg></span>
+      <h3>영상 기획·편집</h3>
+      <p>기획부터 촬영, 편집까지 직접 합니다.</p>
+      <span class="svc-foot">관련 경험 2건 <span aria-hidden="true">→</span></span>
+    </label>
+    <label class="svc" for="f-eng" data-go="projects">
+      <span class="svc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3z"/></svg></span>
+      <h3>영어 협업</h3>
+      <p>외국인 팀원과 영어로 의견을 나누고 결과물을 함께 만듭니다.</p>
+      <span class="svc-foot">관련 경험 1건 <span aria-hidden="true">→</span></span>
+    </label>
+    </div>
+  </section>
+
+  <section class="hero rise" style="--i:7" aria-labelledby="about-h">
+    <div class="hero-text">
+      <span class="todo">아직 비어 있는 정보: 이름, 학교, 졸업 시기, 연락처, 기간 미기재 경험 6건</span>
+      <h2 id="about-h">자기소개</h2>
+      <p class="lead">공공기관 현장실습에서 기술문서와 품질기록을 다루며, 문서는 한 번 더 확인해야 한다는 것을 몸에 익혔습니다. 장학 행정 안내, 어린이도서관 근로, 서비스직을 거치며 여러 사람에게 맞춰 설명하는 일을 해 왔고, 수어를 배워 청각장애 고객의 참여를 도운 경험은 청각장애인의 의사소통을 돕는 AAC 웨어러블 기획으로 이어져 교내 AI 창업 공모전 최우수상을 받았습니다.</p>
+      <div class="keywords"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">기획·사업계획서</span><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">AI·디지털 도구</span></div>
+    </div>
+    <aside class="catalog" aria-label="자기소개 목록카드">
+      <div class="catalog-head"><span>KORMARC 형식 자기소개</span><span>경험 9건</span></div>
+      <dl class="marc"><dt>100</dt><dd><i>▾a</i><span class="blank">[이름]</span></dd><dt>245</dt><dd><i>▾a</i>문서를 정확하게 다루고 사람에게 맞춰 안내하는 예비 사서</dd><dt>260</dt><dd><i>▾a</i><span class="blank">[학교]</span> 문헌정보학 전공 <i>▾c</i><span class="blank">[졸업 시기]</span> 졸업예정</dd><dt>300</dt><dd><i>▾a</i>실무 4건 ; 수상 2건 ; 개인 프로젝트 3건</dd><dt>500</dt><dd>최고 성적 과목: 메타데이터, 자료분류<br>도서관마케팅 수강 중 (마케팅원론 기반)<br>수어 교양 이수</dd><dt>586</dt><dd>교내 AI 창업 공모전 최우수상<br>제1회 대구 글로벌 청년 관광교류 프로그램 우수상 (2025. 8.)</dd><dt>650</dt><dd><i>▾a</i>문서·자료 체계화 <i>▾a</i>공공 행정 실무 <i>▾a</i>고객·외부기관 응대 <i>▾a</i>기획·사업계획서</dd></dl>
+    </aside>
+  </section>
+
+  <section class="summary" aria-labelledby="sum-h">
+    <div class="summary-head">
+      <h2 id="sum-h">한눈에 보는 활동</h2>
+      <span class="eyebrow">경험 9건 데이터로 계산</span>
+    </div>
+    <div class="stats"><div class="stat"><span class="lbl">경험·프로젝트</span><span class="num">9<small>건</small></span><span class="sub">실무 4 · 수상 2 · 개인 3</span></div><div class="stat"><span class="lbl">확인된 실무 기간</span><span class="num">10<small>개월+</small></span><span class="sub">기간 미기재 실무 2건은 합계에서 뺐습니다</span></div><div class="stat"><span class="lbl">수상</span><span class="num">2<small>회</small></span><span class="sub">최우수상 · 우수상</span></div><div class="stat"><span class="lbl">강점 분야</span><span class="num">7<small>개</small></span><span class="sub">경험 1건당 평균 2.3개 강점</span></div></div>
+    <div class="dist">
+      <div>
+        <h3>강점별 경험 수</h3>
+        <p>한 경험이 여러 강점에 걸치면 각각 셌습니다. 가장 많은 경험에서 쓴 강점은 고객·외부기관 응대(5건)입니다.</p>
+      </div>
+      <div class="bars" role="list"><div class="bar-row" role="listitem" title="고객·외부기관 응대: 경험 5건">
+        <span>고객·외부기관 응대</span>
+        <span class="track"><span class="fill" style="width:100.0%"></span></span>
+        <span class="val">5건</span></div><div class="bar-row" role="listitem" title="문서·자료 체계화: 경험 4건">
+        <span>문서·자료 체계화</span>
+        <span class="track"><span class="fill" style="width:80.0%"></span></span>
+        <span class="val">4건</span></div><div class="bar-row" role="listitem" title="기획·사업계획서: 경험 4건">
+        <span>기획·사업계획서</span>
+        <span class="track"><span class="fill" style="width:80.0%"></span></span>
+        <span class="val">4건</span></div><div class="bar-row" role="listitem" title="AI·디지털 도구: 경험 3건">
+        <span>AI·디지털 도구</span>
+        <span class="track"><span class="fill" style="width:60.0%"></span></span>
+        <span class="val">3건</span></div><div class="bar-row" role="listitem" title="공공 행정 실무: 경험 2건">
+        <span>공공 행정 실무</span>
+        <span class="track"><span class="fill" style="width:40.0%"></span></span>
+        <span class="val">2건</span></div><div class="bar-row" role="listitem" title="영상 기획·편집: 경험 2건">
+        <span>영상 기획·편집</span>
+        <span class="track"><span class="fill" style="width:40.0%"></span></span>
+        <span class="val">2건</span></div><div class="bar-row" role="listitem" title="영어 협업: 경험 1건">
+        <span>영어 협업</span>
+        <span class="track"><span class="fill" style="width:20.0%"></span></span>
+        <span class="val">1건</span></div></div>
+    </div>
+  </section>
+
+  <section id="highlights" aria-labelledby="feat-h" style="display:grid;gap:18px">
+    <div><span class="eyebrow">대표 경험</span><h2 id="feat-h">먼저 보여드리고 싶은 세 가지</h2></div>
+    <div class="featured">
+      <a class="spine" href="#p-public-intern">
+        <span class="callno">350<br>행정학</span>
+        <div><h3>공공기관 현장실습</h3><p>기술문서와 도면을 접수·검토 지원·발송하고, 품질기록과 전자문서 시스템을 다뤘습니다.</p></div>
+        <div class="spine-metric"><b>6개월</b><span>기술문서·품질기록 실무</span></div>
+      </a>
+      <a class="spine" href="#p-aac-startup">
+        <span class="callno">500<br>기술과학</span>
+        <div><h3>AI 기반 AAC 웨어러블 창업 프로젝트</h3><p>청각장애인의 의사소통을 돕는 AAC(보완대체의사소통) 웨어러블을 기획해 최우수상을 받고 사업자등록까지 했습니다.</p></div>
+        <div class="spine-metric"><b>최우수상</b><span>상금 300만 원 · 사업자등록</span></div>
+      </a>
+      <a class="spine" href="#p-tour-video">
+        <span class="callno">600<br>예술</span>
+        <div><h3>대구 관광 영상 제작</h3><p>외국인 팀원 3명과 영어로 협업해 대구 관광 영상을 만들고 우수상을 받았습니다.</p></div>
+        <div class="spine-metric"><b>우수상</b><span>2025. 8.</span></div>
+      </a></div>
+  </section>
+
+  <section id="projects" aria-labelledby="list-h" style="display:grid;gap:16px">
+    <div><span class="eyebrow">전체 경험</span><h2 id="list-h">강점별 경험·프로젝트 목록</h2></div>
+    <input class="fl-in" type="radio" name="flt" id="f-all" checked>
+    <input class="fl-in" type="radio" name="flt" id="f-doc">
+    <input class="fl-in" type="radio" name="flt" id="f-admin">
+    <input class="fl-in" type="radio" name="flt" id="f-cust">
+    <input class="fl-in" type="radio" name="flt" id="f-plan">
+    <input class="fl-in" type="radio" name="flt" id="f-video">
+    <input class="fl-in" type="radio" name="flt" id="f-eng">
+    <input class="fl-in" type="radio" name="flt" id="f-ai">
+    <div class="filters" role="group" aria-label="강점으로 거르기">
+      <label for="f-all">전체<span class="c">9</span></label>
+      <label for="f-doc">문서·자료 체계화<span class="c">4</span></label>
+      <label for="f-admin">공공 행정 실무<span class="c">2</span></label>
+      <label for="f-cust">고객·외부기관 응대<span class="c">5</span></label>
+      <label for="f-plan">기획·사업계획서<span class="c">4</span></label>
+      <label for="f-video">영상 기획·편집<span class="c">2</span></label>
+      <label for="f-eng">영어 협업<span class="c">1</span></label>
+      <label for="f-ai">AI·디지털 도구<span class="c">3</span></label>
+    </div>
+    <div class="descs">
+      <p class="d-all">실무, 수상, 개인 프로젝트를 모두 모았습니다. 항목을 누르면 역할·과정·결과·증빙이 열립니다.</p>
+      <p class="d-doc">문서를 접수·검토·발송하고 기록을 관리하며, 메타데이터와 분류로 자료를 정리합니다.</p>
+      <p class="d-admin">공공기관의 전자문서 시스템과 서류 처리 절차를 실제로 다뤄 봤습니다.</p>
+      <p class="d-cust">공급사, 엔지니어, 기업체, 대학, 고객까지 상대에 맞춰 안내합니다.</p>
+      <p class="d-plan">아이템을 구상하고 사업계획서와 서비스 기획 문서를 씁니다.</p>
+      <p class="d-video">기획부터 촬영, 편집까지 직접 합니다.</p>
+      <p class="d-eng">외국인 팀원과 영어로 의견을 나누고 결과물을 함께 만듭니다.</p>
+      <p class="d-ai">AI 코딩 도구와 디지털 도구로 아이디어를 직접 만들어 봅니다.</p>
+    </div>
+    <div class="list">
+      <a class="row c-doc c-admin c-cust" href="#p-public-intern">
+        <span class="callno">350<br>행정학</span>
+        <div style="min-width:0"><h3>공공기관 현장실습<span class="badge">대표</span></h3>
+          <div class="meta"><span>실무</span><span>6개월</span><span>공공기관 · 현장실습 6개월</span></div></div>
+        <div class="tags"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span></div>
+      </a>
+      <a class="row c-admin c-cust c-doc" href="#p-scholarship-admin">
+        <span class="callno">350<br>행정학</span>
+        <div style="min-width:0"><h3>공공지원사업 행정·안내</h3>
+          <div class="meta"><span>실무</span><span>2024.03 – 2024.06경</span><span>장학 관련 공공기관 · 파견직</span></div></div>
+        <div class="tags"><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span></div>
+      </a>
+      <a class="row c-cust c-doc" href="#p-children-library">
+        <span class="callno">020<br>문헌정보학</span>
+        <div style="min-width:0"><h3>공립 어린이도서관 근로</h3>
+          <div class="meta"><span>실무</span><span>기간 미기재</span><span>대구 소재 공립 어린이도서관</span></div></div>
+        <div class="tags"><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span></div>
+      </a>
+      <a class="row c-cust" href="#p-service-job">
+        <span class="callno">300<br>사회과학</span>
+        <div style="min-width:0"><h3>서비스직 고객 응대</h3>
+          <div class="meta"><span>실무</span><span>기간 미기재</span><span>맥도날드 등 · 학업 병행</span></div></div>
+        <div class="tags"><span class="tag">고객·외부기관 응대</span></div>
+      </a>
+      <a class="row c-plan c-ai c-cust" href="#p-aac-startup">
+        <span class="callno">500<br>기술과학</span>
+        <div style="min-width:0"><h3>AI 기반 AAC 웨어러블 창업 프로젝트<span class="badge">대표</span></h3>
+          <div class="meta"><span>수상</span><span>기간 미기재</span><span>교내 AI 창업 공모전</span></div></div>
+        <div class="tags"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span><span class="tag">고객·외부기관 응대</span></div>
+      </a>
+      <a class="row c-video c-eng c-plan" href="#p-tour-video">
+        <span class="callno">600<br>예술</span>
+        <div style="min-width:0"><h3>대구 관광 영상 제작<span class="badge">대표</span></h3>
+          <div class="meta"><span>수상</span><span>2025.08</span><span>제1회 대구 글로벌 청년 관광교류 프로그램</span></div></div>
+        <div class="tags"><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">기획·사업계획서</span></div>
+      </a>
+      <a class="row c-plan c-ai" href="#p-wish-site">
+        <span class="callno">004<br>컴퓨터과학</span>
+        <div style="min-width:0"><h3>소원 검수 웹사이트<span class="badge">기획 단계</span></h3>
+          <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
+        <div class="tags"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span></div>
+      </a>
+      <a class="row c-ai c-plan c-doc" href="#p-todo-app">
+        <span class="callno">004<br>컴퓨터과학</span>
+        <div style="min-width:0"><h3>할 일 관리 웹앱<span class="badge">진행 중</span></h3>
+          <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
+        <div class="tags"><span class="tag">AI·디지털 도구</span><span class="tag">기획·사업계획서</span><span class="tag">문서·자료 체계화</span></div>
+      </a>
+      <a class="row c-video" href="#p-shortform">
+        <span class="callno">600<br>예술</span>
+        <div style="min-width:0"><h3>케이팝 숏폼 영상 편집<span class="badge">진행 중</span></h3>
+          <div class="meta"><span>개인 프로젝트</span><span>기간 미기재</span><span>개인 프로젝트</span></div></div>
+        <div class="tags"><span class="tag">영상 기획·편집</span></div>
+      </a></div>
+  </section>
+
+  <footer>
+    <span>각 경험에는 주제에 맞는 KDC 주류·강 번호를 붙였습니다.</span>
+    <span>최종 갱신 2026. 11. · 경험 9건</span>
+  </footer>
+</div>
+
+<section class="detail" id="p-public-intern" aria-labelledby="t-public-intern">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">350<br>행정학</span>
+      <h2 id="t-public-intern">공공기관 현장실습</h2>
+      <p style="color:var(--ink-2)">기술문서와 도면을 접수·검토 지원·발송하고, 품질기록과 전자문서 시스템을 다뤘습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>실무</div>
+      <div><b>기간</b>6개월</div>
+      <div><b>구성</b>미기재</div>
+      <div><b>맥락</b>공공기관 · 현장실습 6개월</div>
+    </div>
+    <section><h4>역할</h4><p class="role">현장실습생. 기술문서·도면의 접수와 발송, 검토 지원, 품질기록 관리를 맡았고 공급사·엔지니어의 문의에 응대했습니다.</p>
+      <div class="tools"><span class="tag">문서·자료 체계화</span><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag plain">전자문서 시스템</span><span class="tag plain">품질기록</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>빠른 적응</strong> · 처음 일주일 동안 업무 매뉴얼과 기관 고유의 기술용어를 반복해서 익혔습니다.</span></li><li><span><strong>문서 실무</strong> · 기술문서·도면 접수, 검토 지원, 발송을 하고 전자문서 시스템으로 품질기록을 관리했습니다.</span></li><li><span><strong>외부 응대</strong> · 공급사와 엔지니어의 문의를 받아 담당 부서와 연결하고 답변했습니다.</span></li><li><span><strong>원인 찾기</strong> · 최종 검토 단계에서 문서 대신 내부 기호가 표시되었습니다. 상급자들은 시스템 오류로 보았지만, 처리 과정에 원인이 있을 수 있다고 의견을 냈고 실제 원인은 파일 미변환이었습니다.</span></li><li><span><strong>실수에서 배우기</strong> · 과거 버전 문서를 제출한 실수를 계기로, 제출 전 문서 버전을 확인하는 절차를 습관으로 만들었습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>파일 미변환</b><span>오류로 보이던 문제의 실제 원인 확인</span></div><div class="result"><b>1주</b><span>매뉴얼·기술용어 익히고 적응</span></div><div class="result"><b>버전 확인</b><span>문서 제출 전 확인 절차 정착</span></div></div>
+      <p class="outcome">겉으로 보이는 증상보다 처리 과정을 먼저 의심하는 습관, 그리고 문서를 내기 전에 한 번 더 확인하는 습관을 얻었습니다.</p></section>
+    <section><h4>증빙 2점</h4><ul class="evidence"><li><span class="ev-type">확인서</span><span>현장실습 이수 확인서</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">평가</span><span>실습기관 평가서</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-aac-startup" aria-labelledby="t-aac-startup">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">500<br>기술과학</span>
+      <h2 id="t-aac-startup">AI 기반 AAC 웨어러블 창업 프로젝트</h2>
+      <p style="color:var(--ink-2)">청각장애인의 의사소통을 돕는 AAC(보완대체의사소통) 웨어러블을 기획해 최우수상을 받고 사업자등록까지 했습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>수상</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>미기재</div>
+      <div><b>맥락</b>교내 AI 창업 공모전</div>
+    </div>
+    <section><h4>역할</h4><p class="role">아이템 구상, 시제품 기획, 사업계획서 작성을 맡고 창업 전문가 자문을 받았습니다.</p>
+      <div class="tools"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span><span class="tag">고객·외부기관 응대</span><span class="tag plain">사업계획서</span><span class="tag plain">시제품 기획</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>계기</strong> · 서비스직에서 청각장애 고객을 응대한 경험에서 아이템을 떠올렸습니다.</span></li><li><span><strong>기획</strong> · 아이템을 구체화하고 시제품을 기획했습니다.</span></li><li><span><strong>사업계획서</strong> · 장애인이 일상에서 마주하는 소통의 벽을 어떻게 낮출지 고민하며 사업계획서를 썼고, 1차 심사를 통과한 뒤 창업 전문가에게 자문을 받았습니다.</span></li><li><span><strong>발표</strong> · 준비 시간 없이 즉석에서 발표했습니다.</span></li><li><span><strong>사업화 준비</strong> · 수상 후 실제 사업자등록까지 진행했습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>최우수상</b><span>교내 AI 창업 공모전</span></div><div class="result"><b>300만 원</b><span>상금</span></div><div class="result"><b>사업자등록</b><span>실제 등록 완료</span></div></div>
+      <p class="outcome">사업계획서를 쓰며 장애인이 일상에서 마주하는 소통의 벽을 어떻게 낮출지 고민했습니다. 기획과 사업화 준비 단계까지 진행했습니다. AI 모델 개발, 작동하는 시제품 제작, 투자 유치는 하지 않았습니다.</p></section>
+    <section><h4>증빙 3점</h4><ul class="evidence"><li><span class="ev-type">상장</span><span>AI 창업 공모전 최우수상 상장</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">등록증</span><span>사업자등록증</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">문서</span><span>사업계획서</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-tour-video" aria-labelledby="t-tour-video">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">600<br>예술</span>
+      <h2 id="t-tour-video">대구 관광 영상 제작</h2>
+      <p style="color:var(--ink-2)">외국인 팀원 3명과 영어로 협업해 대구 관광 영상을 만들고 우수상을 받았습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>수상</div>
+      <div><b>기간</b>2025.08</div>
+      <div><b>구성</b>외국인 팀원 3명과 협업</div>
+      <div><b>맥락</b>제1회 대구 글로벌 청년 관광교류 프로그램</div>
+    </div>
+    <section><h4>역할</h4><p class="role">영상의 기획·촬영·편집을 주도했습니다.</p>
+      <div class="tools"><span class="tag">영상 기획·편집</span><span class="tag">영어 협업</span><span class="tag">기획·사업계획서</span><span class="tag plain">영상 촬영</span><span class="tag plain">영상 편집</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>협업</strong> · 외국인 팀원 3명과 영어로 아이디어를 나눴습니다.</span></li><li><span><strong>제작</strong> · 기획, 촬영, 편집을 주도했습니다.</span></li><li><span><strong>발표 조율</strong> · 발표 시간 제한에 맞추려고 감상 파트를 줄이자고 팀을 설득했고, 최종 발표문이 그 방향으로 정리되었습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>우수상</b><span>대구 글로벌 청년 관광교류 프로그램</span></div><div class="result"><b>영어</b><span>외국인 팀원 3명과 협업</span></div></div>
+      <p class="outcome">제한된 시간 안에서 무엇을 남길지 정하고, 다른 언어를 쓰는 팀원을 설득하는 경험을 했습니다.</p></section>
+    <section><h4>증빙 2점</h4><ul class="evidence"><li><span class="ev-type">상장</span><span>우수상 상장</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">영상</span><span>완성 영상 링크</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-scholarship-admin" aria-labelledby="t-scholarship-admin">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">350<br>행정학</span>
+      <h2 id="t-scholarship-admin">공공지원사업 행정·안내</h2>
+      <p style="color:var(--ink-2)">대학 대상 장학·멘토링 프로그램의 신청을 안내·홍보하고, 전화 응대와 서류 처리를 했습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>실무</div>
+      <div><b>기간</b>2024.03 – 2024.06경</div>
+      <div><b>구성</b>미기재</div>
+      <div><b>맥락</b>장학 관련 공공기관 · 파견직</div>
+    </div>
+    <section><h4>역할</h4><p class="role">파견직. 프로그램 안내와 홍보, 전화 응대, 관련 서류 처리를 맡았습니다.</p>
+      <div class="tools"><span class="tag">공공 행정 실무</span><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span><span class="tag plain">공공 행정 서류</span><span class="tag plain">전화 응대</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>안내·홍보</strong> · 대학을 대상으로 장학·멘토링 프로그램 신청을 안내하고 홍보했습니다.</span></li><li><span><strong>전화 응대</strong> · 기관 대표 전화로 들어오는 문의에 답했습니다.</span></li><li><span><strong>서류 안내</strong> · 국가근로장학 근로기관으로 등록하려는 기업체에 제출 서류를 안내했습니다.</span></li><li><span><strong>서류 처리</strong> · 관련 서류를 접수하고 처리했습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>대학·기업체</b><span>두 대상을 모두 응대</span></div><div class="result"><b>4개월</b><span>공공기관 행정 실무</span></div></div>
+      <p class="outcome">같은 제도를 대학과 기업체라는 서로 다른 상대에게 각각 이해하기 쉽게 설명하는 방법을 익혔습니다.</p></section>
+    <section><h4>증빙 1점</h4><ul class="evidence"><li><span class="ev-type">증명서</span><span>경력(파견) 증명서</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-children-library" aria-labelledby="t-children-library">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">020<br>문헌정보학</span>
+      <h2 id="t-children-library">공립 어린이도서관 근로</h2>
+      <p style="color:var(--ink-2)">대구의 공립 어린이도서관에서 근로하며 도서관 현장을 직접 경험했습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>실무</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>미기재</div>
+      <div><b>맥락</b>대구 소재 공립 어린이도서관</div>
+    </div>
+    <section><h4>역할</h4><p class="role">도서관 근로자.</p>
+      <div class="tools"><span class="tag">고객·외부기관 응대</span><span class="tag">문서·자료 체계화</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>근로</strong> · 대구 소재 공립 어린이도서관에서 근로했습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>공공도서관</b><span>현장 근무 경험</span></div></div>
+      <p class="outcome">맡았던 업무를 적어 주시면 과정과 결과를 더 채울 수 있습니다.</p></section>
+    <section><h4>증빙 1점</h4><ul class="evidence"><li><span class="ev-type">확인서</span><span>근로 확인서</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-service-job" aria-labelledby="t-service-job">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">300<br>사회과학</span>
+      <h2 id="t-service-job">서비스직 고객 응대</h2>
+      <p style="color:var(--ink-2)">고객 응대를 전담하고 고객 만족도 조사를 진행했으며, 수어로 청각장애 고객의 조사 참여를 도왔습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>실무</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>미기재</div>
+      <div><b>맥락</b>맥도날드 등 · 학업 병행</div>
+    </div>
+    <section><h4>역할</h4><p class="role">고객 응대 전담 직원.</p>
+      <div class="tools"><span class="tag">고객·외부기관 응대</span><span class="tag plain">수어</span><span class="tag plain">고객 만족도 조사</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>고객 응대</strong> · 학업과 병행하며 고객 응대를 전담했습니다.</span></li><li><span><strong>만족도 조사</strong> · 매장의 고객 만족도 조사를 진행했습니다.</span></li><li><span><strong>접근성</strong> · 청각장애 고객이 조사에 참여할 수 있도록 수어로 돕고 싶었습니다. 관리자의 우려를 듣고 범위를 좁혀 제안해 허락을 받았습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>칭찬 VOC</b><span>고객이 직접 남긴 칭찬 접수</span></div><div class="result"><b>수어</b><span>청각장애 고객 조사 참여 지원</span></div></div>
+      <p class="outcome">이 경험이 AI 기반 AAC 웨어러블 창업 프로젝트의 계기가 되었습니다.</p></section>
+    <section><h4>증빙 2점</h4><ul class="evidence"><li><span class="ev-type">VOC</span><span>칭찬 VOC 기록</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">증명서</span><span>경력 증명서</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-wish-site" aria-labelledby="t-wish-site">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">004<br>컴퓨터과학</span>
+      <h2 id="t-wish-site">소원 검수 웹사이트</h2>
+      <p style="color:var(--ink-2)">'소원을 비는 건 프롬프트 입력'이라는 콘셉트로, 소원의 부작용을 알려 주는 게임형 사이트입니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>개인 프로젝트 · 기획 단계</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>개인</div>
+      <div><b>맥락</b>개인 프로젝트</div>
+    </div>
+    <section><h4>역할</h4><p class="role">콘셉트와 운영 방식을 혼자 기획하고 있습니다.</p>
+      <div class="tools"><span class="tag">기획·사업계획서</span><span class="tag">AI·디지털 도구</span><span class="tag plain">프롬프트</span><span class="tag plain">웹</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>콘셉트</strong> · 소원을 비는 일을 AI에 프롬프트를 입력하는 일에 빗대었습니다.</span></li><li><span><strong>구성</strong> · 사용자가 소원을 입력하면 그 소원의 부작용을 알려 주는 게임 방식으로 구상했습니다.</span></li><li><span><strong>운영</strong> · 광고와 후원으로 무료 운영하는 방식을 구상했습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>기획 단계</b><span>콘셉트·운영 방식 구상</span></div></div>
+      <p class="outcome">아직 구현 전입니다.</p></section>
+    <section><h4>증빙 1점</h4><ul class="evidence"><li><span class="ev-type">문서</span><span>기획 메모</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-todo-app" aria-labelledby="t-todo-app">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">004<br>컴퓨터과학</span>
+      <h2 id="t-todo-app">할 일 관리 웹앱</h2>
+      <p style="color:var(--ink-2)">요구사항 문서(PRD)를 먼저 쓰고, AI 코딩 도구로 단계별 구현 계획을 세워 만들고 있습니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>개인 프로젝트 · 진행 중</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>개인</div>
+      <div><b>맥락</b>개인 프로젝트</div>
+    </div>
+    <section><h4>역할</h4><p class="role">기획과 구현을 혼자 맡고 있습니다.</p>
+      <div class="tools"><span class="tag">AI·디지털 도구</span><span class="tag">기획·사업계획서</span><span class="tag">문서·자료 체계화</span><span class="tag plain">JavaScript</span><span class="tag plain">AI 코딩 도구</span><span class="tag plain">PRD</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>PRD 작성</strong> · 만들 기능과 화면을 요구사항 문서로 정리했습니다.</span></li><li><span><strong>구현 계획</strong> · AI 코딩 도구와 함께 단계별 구현 계획을 세웠습니다.</span></li><li><span><strong>구현</strong> · 라이브러리 없이 순수 자바스크립트로 만들고 있습니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>PRD</b><span>요구사항 문서 작성</span></div></div>
+      <p class="outcome">진행 중입니다.</p></section>
+    <section><h4>증빙 2점</h4><ul class="evidence"><li><span class="ev-type">문서</span><span>PRD 문서</span><span class="ev-state">첨부 예정</span></li><li><span class="ev-type">코드</span><span>코드 저장소</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+
+<section class="detail" id="p-shortform" aria-labelledby="t-shortform">
+  <a class="backdrop" href="#projects" tabindex="-1" aria-hidden="true"></a>
+  <div class="panel"><div class="dlg">
+    <div class="dlg-head">
+      <span class="callno">600<br>예술</span>
+      <h2 id="t-shortform">케이팝 숏폼 영상 편집</h2>
+      <p style="color:var(--ink-2)">케이팝 음원에 맞춰 60초 안팎의 숏폼 영상을 편집합니다.</p>
+      <a class="close" href="#projects" aria-label="닫기">×</a>
+    </div>
+    <div class="facts">
+      <div><b>구분</b>개인 프로젝트 · 진행 중</div>
+      <div><b>기간</b>기간 미기재</div>
+      <div><b>구성</b>개인</div>
+      <div><b>맥락</b>개인 프로젝트</div>
+    </div>
+    <section><h4>역할</h4><p class="role">편집을 혼자 합니다.</p>
+      <div class="tools"><span class="tag">영상 기획·편집</span><span class="tag plain">영상 편집</span></div></section>
+    <section><h4>과정</h4><ol class="steps"><li><span><strong>편집</strong> · 케이팝 음원의 박자에 맞춰 60초 안팎으로 편집합니다.</span></li></ol></section>
+    <section><h4>결과</h4><div class="results"><div class="result"><b>60초 안팎</b><span>숏폼 편집</span></div></div>
+      <p class="outcome">진행 중입니다.</p></section>
+    <section><h4>증빙 1점</h4><ul class="evidence"><li><span class="ev-type">영상</span><span>편집 영상 링크</span><span class="ev-state">첨부 예정</span></li></ul></section>
+  </div></div>
+</section>
+<script>
+/* 링크 이동과 상세 창을 스크립트로 직접 처리합니다.
+   (# 링크가 막히는 환경에서도 동작. 스크립트가 꺼져 있으면 CSS :target 방식으로 동작) */
+(function () {
+  document.documentElement.classList.add("js");
+  let opened = null, lastFocus = null;
+  const go = id => { const t = document.getElementById(id); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const setHash = h => { try { history.replaceState(null, "", h ? "#" + h : location.pathname + location.search); } catch (_) {} };
+  function openDetail(id) {
+    const el = document.getElementById(id); if (!el) return;
+    closeDetail(true);
+    lastFocus = document.activeElement;
+    el.classList.add("open"); opened = el;
+    document.body.classList.add("locked");
+    el.scrollTop = 0;
+    const c = el.querySelector(".close"); if (c) c.focus({ preventScroll: true });
+    setHash(id);
+  }
+  function closeDetail(silent) {
+    if (!opened) return;
+    opened.classList.remove("open"); opened = null;
+    document.body.classList.remove("locked");
+    if (!silent) { setHash(""); if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
+  }
+  document.addEventListener("click", e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a) {
+      e.preventDefault();
+      const id = a.getAttribute("href").slice(1);
+      if (id.indexOf("p-") === 0) return openDetail(id);
+      if (opened) { closeDetail(); return; }
+      return go(id);
+    }
+    const card = e.target.closest("[data-go]");
+    if (card) setTimeout(() => go(card.dataset.go), 0);
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeDetail(); });
+  if (location.hash.indexOf("#p-") === 0) openDetail(location.hash.slice(1));
+})();
+</script>
+
+</body>
+</html>
